@@ -77,7 +77,7 @@ PM or, preferably, by email.</p>
 get involved with the AMC.</p>
 
 <p>Questions? Want to learn how to get involved? Visit the Young Members
-website
+web site
 (<a href="http://amcboston.org/youngmembers/">http://amcboston.org/youngmembers/</a>)
 and check out the Frequently Asked Questions page. If
 you still have questions or concerns, please contact the YM Chair (<a
@@ -87,19 +87,17 @@ href="mailto:youngmembers@amcboston.org">youngmembers@amcboston.org</a>).</p>
 registration information, visit:
 <a href="http://amcboston.org/youngmembers/trip_list.shtml">http://amcboston.org/youngmembers/trip_list.shtml</a>.</p>
 
-<!--P> A text only trip listing, useful for printing or for those with
-slower Internet connections, can be found at: <a
-href="http://amcboston.org/youngmembers/trip_list_pf.shtml">http://
-amcboston.org/youngmembers/trip_list_pf.shtml</a> -->
+<p>(Note: the printable text-only format for the trip listings is no longer on a separate 
+page; it will be used automatically when you print the regular trip listings.)</p>
 
 <p>The trips listed in this email are subject to change, so for the most
-up to date list of activities, please check the listings on the website.</p>
+up to date list of activities, please check the listings on the web site.</p>
 
 <p><i>NOTE: To unsubscribe from this email or to change your email
 address, please follow the link at the bottom of this message. To change
 your email address, first unsubscribe using the link at the bottom of
 this message, and then re-subscribe using the link on the YM home page.
-If you experience any problems with the email or web site, please DO NOT
+If you experience any problems with the email or web site, please <em>do not</em>
 reply to this message. Instead, please contact Andrew at
 <a href="mailto:amc2005@shearersoftware.com">amc2005@shearersoftware.com</a>.
 Thanks!</i></p>
