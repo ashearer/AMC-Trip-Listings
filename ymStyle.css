@@ -1,0 +1,85 @@
+
+.ymPageHead {font-family:Comic Sans MS, arial;font-weight:bold;font-size:18pt}
+.ymHeader {font-family:arial;font-weight:bold;font-size:14pt}
+
+.ymText {font-family:arial;font-size:10pt}
+
+.ymMenuText {font-family:arial;font-size:9pt;font-weight:bold; color: blue}
+.ymMenuSelect {background-color:#0081fa; color: black}
+.ymSubMenuText {font-family:arial;font-size:9pt;font-weight:normal; color: blue}
+.ymSubMenuSelect {background-color:#0081fa; font-weight:normal; color: black}
+
+ A.ymMenuLink:link {color: black; text-decoration: none}
+ A.ymMenuLink:visited {color: black; text-decoration: none}
+ A.ymMenuLink:active {color: maroon; text-decoration: none}
+ A.ymMenuLink:hover {color: white; text-decoration: none}
+
+ A.ymHeaderLink:link {color: white; text-decoration: none; font-weight: none}
+ A.ymHeaderLink:visited {color: white; text-decoration: none; font-weight: none}
+ A.ymHeaderLink:active {color: white; text-decoration: none; font-weight: none}
+ A.ymHeaderLink:hover {color: black; text-decoration: none; font-weight: none}
+
+
+.ymBackground {background-color:#ffffff}
+.ymHeaderBackground {background-color: lightblue}
+.ymMenuBackground {background-color:#66cc99}
+.ymSideBarBackground {background-color:#33aa33}
+.ymLinkBarBackground {background-color:#999999}
+
+.ymBody {font-family:arial;font-size:10pt}
+
+.ymSectionHead {font-family:arial;font-weight:bold;font-size:12pt}
+
+.ymColorSectionHead {background-color:#66cc99;font-family:arial;font-weight:bold;font-size:12pt}
+
+.ymSubSectionHead {font-family:arial;font-weight:bold;font-size:10pt}
+
+.ymTimestamp {font-family:arial;font-weight:normal;font-style:italic;font-size:10pt}
+
+.ymAltTableRow {background-color:#BBBBBB}
+
+.ymTripTitle {font-family:arial;font-size:10pt;font-weight:bold}
+.ymTripDesc {font-family:arial;font-size:10pt}
+
+.ymFaqQuestion {font-family:arial;font-size:10pt;font-weight:bold}
+.ymFaqAnswer {font-family:arial;font-size:10pt}
+
+.none {font-family:arial;font-size:10pt;list-style-type:none}
+.nonea {font-family:arial;font-size:9pt;list-style-type:none}
+.disc {font-family:arial;font-size:10pt;list-style-type:disc}
+
+ A:link {color: blue}
+ A:visited {color: brown}
+ A:active {color: brown}
+ A:hover {color: black}
+
+
+.ldrBackground {background-color:#f4EDB4}
+.ldrHeaderBackground {background-color: lightblue}
+.ldrMenuBackground {background-color:#033E8C}
+.ldrSideBarBackground {background-color:#033E8C}
+.ldrLinkBarBackground {background-color:#999999}
+
+.ldrBody {font-family:arial;font-size:10pt}
+.ldrSectionHead {font-family:arial;font-weight:bold;font-size:10pt}
+.ldrColorSectionHead {background-color:#ffffaa;font-family:arial;font-weight:bold;font-size:10pt}
+.ldrSubSectionHead {font-family:arial;font-weight:bold;font-size:10pt}
+
+.ldrPageHead {font-family:Comic Sans MS, arial;font-weight:normal;font-size:12pt}
+.ldrHeader {font-family:arial;font-weight:bold;font-size:14pt}
+
+.ldrText {font-family:arial;font-size:10pt}
+.ldrMenuText {font-family:arial;font-size:9pt;font-weight:bold; color: blue}
+
+.ldrTimestamp {font-family:arial;font-weight:normal;font-style:italic;font-size:10pt}
+.ldrAltTableRow {background-color:#BBBBBB}
+
+ A.ldrMenuLink:link {color: yellow; text-decoration: none}
+ A.ldrMenuLink:visited {color: yellow; text-decoration: none}
+ A.ldrMenuLink:active {color: #EE6A00; text-decoration: none}
+ A.ldrMenuLink:hover {color: white; text-decoration: none}
+
+ A.ldrHeaderLink:link {color: white; text-decoration: none; font-weight: none}
+ A.ldrHeaderLink:visited {color: white; text-decoration: none; font-weight: none}
+ A.ldrHeaderLink:active {color: white; text-decoration: none; font-weight: none}
+ A.ldrHeaderLink:hover {color: black; text-decoration: none; font-weight: none}
