@@ -23,7 +23,7 @@ r = [
       r'<a href="mailto:\1">\1</a>'),
       
      # Web addresses
-     (re.compile(r"(?:\&lt;|<)?\b(?:http://|(?=www.))([\.\?\&\%/_;~A-Za-z0-9-/]+[/_~A-Za-z0-9-/])(?:\&gt;|>)?"),
+     (re.compile(r"(?:\&lt;|<)?\b(?:http://|(?=www.))([\.\?\&\%/_=;~A-Za-z0-9-/]+[/_~A-Za-z0-9-/])(?:\&gt;|>)?"),
       r'<a href="http://\1">\1</a>'),
       
      # Headings
