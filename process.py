@@ -23,7 +23,7 @@ r = [
       r'<a href="mailto:\1">\1</a>'),
       
      # Web addresses
-     (re.compile(r"(?:\&lt;|<)?\b(?:http://|(?=www.))([\.\?\&\%/_;~A-Za-z0-9-/]+)[/_~A-Za-z0-9-/](?:\&gt;|>)?"),
+     (re.compile(r"(?:\&lt;|<)?\b(?:http://|(?=www.))([\.\?\&\%/_;~A-Za-z0-9-/]+[/_~A-Za-z0-9-/])(?:\&gt;|>)?"),
       r'<a href="http://\1">\1</a>'),
       
      # Headings
@@ -36,11 +36,20 @@ r = [
      (re.compile(r"\n\n([A-Za-z]+)([^<\n]*)\n\n"),
       r'\n</trips>\n\n<trips id="\1\2" link="\1">\n\n'),
       
+     # Italic Note: lines, delimited by three slashes
+     (re.compile(r"\\\\\\(Note: .*?)\\\\\\"),
+      r"\n<p><em>\1</em></p>\n"),
+     
      # Paragraphs
      (re.compile(r"\n([^<\n]+)(?=\n|\Z)"),
       r'\n\1<br />'),
      (re.compile(r"\n\n([^<][^_]*?)(?:<br />(?=\n\n)|\n?\n?\Z)"),
       r'\n\n<p>\1</p>')
+      
+     # Italic Note: lines
+     #(re.compile(r"\n(Note: .*?)\n"),
+     # r"\n<em>\1</em><br />\n"),
+     
      ]
 
 prefix = """<?xml version="1.0" encoding="utf-8" standalone="yes"?>

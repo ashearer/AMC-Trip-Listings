@@ -17,10 +17,10 @@
         <xsl:when test="substring(., string-length(.)-1, 1) = '4'">leisurely 1.5 mph, </xsl:when>
       </xsl:choose>
       <xsl:choose>
-        <xsl:when test="substring(., string-length(.), 1) = 'A'">very strenuous</xsl:when>
-        <xsl:when test="substring(., string-length(.), 1) = 'B'">strenuous</xsl:when>
-        <xsl:when test="substring(., string-length(.), 1) = 'C'">average</xsl:when>
-        <xsl:when test="substring(., string-length(.), 1) = 'D'">easy</xsl:when>
+        <xsl:when test="substring(., string-length(.), 1) = 'A'">very strenuous terrain</xsl:when>
+        <xsl:when test="substring(., string-length(.), 1) = 'B'">strenuous terrain</xsl:when>
+        <xsl:when test="substring(., string-length(.), 1) = 'C'">average terrain</xsl:when>
+        <xsl:when test="substring(., string-length(.), 1) = 'D'">easy terrain</xsl:when>
       </xsl:choose>
     </xsl:attribute>(<span class="inner"><xsl:value-of select="."/></span>)</span>
   </xsl:template>
@@ -94,9 +94,9 @@
         <th>Terrain</th>
       </tr-->
       <tr>
-        <td>AA = 13+ miles<br />A = 9-13 miles<br />B = 5-9 miles<br />C = under 5 miles</td>
+        <td>AA = 13+ miles<br />A = 9–13 miles<br />B = 5–9 miles<br />C = under 5 miles</td>
         <td class="gap">&#160;</td>
-        <td>1 = very fast 2.5+ mph<br />2 = fast 2-2.5 mph<br />3 = moderate 1.5-2 mph<br />4 = leisurely 1.5 mph</td>
+        <td>1 = very fast 2.5+ mph<br />2 = fast 2–2.5 mph<br />3 = moderate 1.5–2 mph<br />4 = leisurely 1.5 mph</td>
         <td class="gap">&#160;</td>
         <td>A = very strenuous<br />B = strenuous<br />C = average<br />D = easy</td>
       </tr>
@@ -104,6 +104,15 @@
         <td colspan="5" align="center">* Pace is the leader&#8217;s
         hiking pace on &#8220;average&#8221; terrain, such as the
         hilly trails in the Blue Hills.</td>
+      </tr>
+      <tr class="example">
+        <td colspan="5" align="center"><strong>Example:</strong><xsl:text> </xsl:text>
+        <span class="rating" onclick="window.alert('B2C: ' + this.title + '.')"  title="5–9 miles, fast 2–2.5 mph pace, average terrain"><span class="inner">B2C</span></span>
+        means 5–9 miles, fast 2–2.5 mph pace, average terrain.
+        <div style="navOnly">
+        To get an English translation for any blue trip rating, move your
+        mouse over it and either hover there for a second or click.</div>
+        </td>
       </tr>
     </tbody></table>
     </div>
@@ -156,7 +165,7 @@
       </a>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:copy/>
+        <xsl:copy-of select="."/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
