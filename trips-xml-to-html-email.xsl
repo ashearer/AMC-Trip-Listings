@@ -8,8 +8,10 @@
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <title>AMC Trip Listings</title>
-        <base href="http://www.amcboston.org/youngmembers/" />
-        <meta name="generator" content="BBEdit 8.0" />
+
+
+    </head>
+    <body><div class="mail">
         <style type="text/css">
           <xsl:text disable-output-escaping="true">&lt;!--</xsl:text>
           <xsl:text>
@@ -28,31 +30,21 @@ Colors:
 #DDD Light Gray
 */
 
-html, body, td {font: 12px/16px "Lucida Grande", Verdana, "Bitstream Vera Sans", Geneva, Arial, sans-serif}
-.pageContent {padding: 0 1em}
-h2 {background-color: #369; color: white; padding: 0.2em 0.7em 0.3em 0.7em; margin: 1em 0 0.5em 0;
+.mail, .mail td {font: 12px/16px "Lucida Grande", Verdana, "Bitstream Vera Sans", Geneva, Arial, sans-serif}
+.mail h2 {background-color: #369; color: white; padding: 0.2em 0.7em 0.3em 0.7em; margin: 1em 0 0.5em 0;
     font-size: 140%; border: 1px solid #2E4C7B; border-width: 1px 0}
-
-/*.contents .section td {padding-top: 0.8em; border-bottom: 1px solid #369; padding-left: 0.7em; color: #A56E27; background-color: #FFF; padding-bottom: 0.3em; font-weight: bold}
-*/
-.contents .date {text-align: right; vertical-align: top; white-space: nowrap; border-right: 1px solid #D4E5F7; padding-top: 0.3em; padding-left: 0.5em}
+.contents .date {text-align: right; vertical-align: top; white-space: nowrap; border-right: 1px solid #D4E5F7; padding-top: 0.3em; padding-left: 0.5em; padding-right: 0.7em}
 .contents .title {vertical-align: top; padding-left: 0.7em; padding-top: 0.3em; color: black}
 .contents .emptySection td {padding-left: 0.7em; padding-top: 0.3em; font-style: italic}
 
-.rating .inner {/*vertical-align: 2px;*/ color: white; background-color: #369; padding: 0 2px; cursor: pointer}
+.rating .inner {color: white; background-color: #369; padding: 0 2px; cursor: pointer}
 .contents td a {text-decoration: none; color: inherit}
 .contents td a:hover {text-decoration: underline}
-.trip {margin-bottom: 0.7em; margin-top: 0.7em; padding-bottom: 0.7em; border-bottom: 0px solid #D4E5F7}
-.trip .date, .contents .date {padding-right: 0.7em; color: #1F3047}
-.trip .date {margin-right: 0.5em; font-weight: bold; border-right: 1px solid #369; }
-.trip .title {font-weight: bold}
 .rating {font-size: 90%; color: white}
-/*.rating .inner {color: #1F3047; border-bottom: 1px dotted gray}*/
 .tagNew, .tagWaitlist, .tagFull {font-size: 90%; color: white; padding: 0 2px}
 .tagNew {background-color: green}
 .tagWaitlist {background-color: yellow}
 .tagFull {background-color: red}
-.trip .desc {margin-top: 0.2em}
 .mail .ratingKey {margin-top: 1em}
 .ratingKey tbody td, .ratingKey tbody th {vertical-align: top; text-align: left;
 border-top: 1px solid gray; border-bottom: none; padding: 0.2em 0.4em 0.2em 0.4em;
@@ -63,43 +55,33 @@ white-space: nowrap; font-size: 11px}
 .ratingKey tbody .footnote td {white-space: normal; font-style: italic; padding: 0.6em 0.4em}
 .ratingKey tbody .example td {white-space: normal; padding: 0.6em 0.4em; border-top: none}
 .ratingKey {margin-bottom: 1em; background-color: #D4E5F7; padding: 0.2em 1em; color: black}
-@media print {
-    .navOnly {display: none}
-    .rating .inner {border-bottom: none; color: black}
-    h2 {background-color: white; color: #2E4C68; padding: 0.2em 0; border-top: 1px solid #369; border-bottom: 1px solid #369}
-}
 </xsl:text>
 <xsl:text disable-output-escaping="yes">--&gt;</xsl:text>
 </style>
-
-    </head>
-    <body class="mail">
       <xsl:apply-templates/>
+    </div>
     </body>
     </html>
   </xsl:template>
   
   <xsl:template match="listing">
-
-    <h2>About the AMC Boston Young Members Trip Listings</h2>
-    <!--xsl:copy-of select="mailheader" /-->
-<p>Young Members invites outdoor enthusiasts to
+<h2>Boston AMC Young Members Trip Listings</h2>
+     <!--xsl:copy-of select="mailheader" /-->
+<p>The Boston AMC Young Members group invites outdoor enthusiasts to
 get involved with the AMC.</p>
 
 <p>Questions? Want to learn how to get involved? Visit the Young Members
 web site
 (<a href="http://amcboston.org/youngmembers/">http://amcboston.org/youngmembers/</a>)
 and check out the Frequently Asked Questions page. If
-you still have questions or concerns, please contact the YM Chair (<a
-href="mailto:youngmembers@amcboston.org">youngmembers@amcboston.org</a>).</p>
+you still have questions or concerns, please contact the YM Chair at <a
+href="mailto:youngmembers@amcboston.org">youngmembers@amcboston.org</a>.</p>
 
 <p>For full descriptions of the trips listed below, including
 registration information, visit:
 <a href="http://amcboston.org/youngmembers/trip_list.shtml">http://amcboston.org/youngmembers/trip_list.shtml</a>.</p>
 
-<p>(Note: there is no longer a separate link to a printable version
-of the full trip listings, because its format will now be used automatically
-when you print.)</p>
+<p>(Note: the printer-friendly version of the trip listings page no longer needs a separate link; it will be used automatically when you print.)</p>
 
 <p>The trips listed in this email are subject to change, so for the most
 up-to-date list of activities, please check the listings on the web site.</p>
@@ -108,26 +90,34 @@ up-to-date list of activities, please check the listings on the web site.</p>
 address, please follow the link at the bottom of this message. To change
 your email address, first unsubscribe using the link at the bottom of
 this message, and then re-subscribe using the link on the YM home page.
-If you experience any problems with the email or web site, please <em>do not</em>
+If you experience any problems with the email or web site, please <strong>do not</strong>
 reply to this message. Instead, please contact Andrew at
 <a href="mailto:amc2005@shearersoftware.com">amc2005@shearersoftware.com</a>.
 Thanks!</i></p>
+
+<div style="padding: 1em; background-color: #F0EBDB; margin: 1em 0"> 
+<h4 style="padding: 0; margin: 0">Young Members Winter Soiree!</h4>
+<p>Thursday, January 13, 2005 at 7 <small>PM</small><br />
+Cabot Hall Auditorium, 5 Joy Street, Boston, MA</p>
+<p>
+<b>Calling all present, past and future Young Members!</b>  Join us in 2005 for this fabulous winter gala complete with snowflakes, chocolate desserts, and unique trip opportunities.  Come to socialize, have fun, and talk to trip leaders.  All are welcome!  Bring your non-AMC friends/coworkers.  Admission is $5 for participants and $3 for leaders.  If you purchase an AMC Membership in a Bottle at the door at the low price of $35 (discounted from $50 regular membership) admission is free.  Alcohol is permitted (BYOB).</p>
+
+<p>Note: This new event combines the former YM Potlucks and Trip Planning Meetings into one. This will be the first of 4 seasonal events sponsored by YM this year as a forum for new members to learn about the AMC and old members and leaders to socialize, network and plan future trips.</p></div>
 
 
     <table class="contents" border="0" cellpadding="0" cellspacing="0">
       <xsl:for-each select="trips">
         <tr class="section">
-          <td colspan="2"><h2><xsl:value-of select="@id"/></h2>
+          <td colspan="2"> <br/><h2><xsl:value-of select="@id"/></h2>
             <xsl:if test="@link='Hiking'">
-                For an explanation of the trip rating codes, click on a
-                particular trip rating (or hover over it with the mouse
-                for a second). You can also see the full key at the bottom of this message.
+                For an explanation of the trip rating codes, hover over a
+                particular trip rating with the mouse, or see the full key at the bottom of this message.
             </xsl:if>
           </td>
         </tr>
         <xsl:if test="not(trip)">
           <tr class="emptySection">
-            <td colspan="2">See web page for details.</td>
+            <td colspan="2">See the <a href="http://amcboston.org/youngmembers/trip_list.shtml">web page</a> for details.</td>
           </tr>
         </xsl:if>
         <xsl:for-each select="trip">
@@ -147,7 +137,7 @@ Thanks!</i></p>
       </xsl:for-each>
     </table>
     
-    <div></div>
+    <br/>
     
     <div class="ratingKey">
     
@@ -160,27 +150,27 @@ Thanks!</i></p>
       <tbody>
       <tr>
         <th>First: Mileage</th>
-        <th class="gap">&#160;</th>
+        <th class="gap"></th>
         <th>Middle: Pace*</th>
-        <th class="gap">&#160;</th>
+        <th class="gap"></th>
         <th>Last: Terrain</th>
       </tr>
       <tr>
-        <td>AA = 13+ miles<br />A = 9–13 miles<br />B = 5–9 miles<br />C = under 5 miles</td>
-        <td class="gap">&#160;</td>
-        <td>1 = very fast 2.5+ mph<br />2 = fast 2–2.5 mph<br />3 = moderate 1.5–2 mph<br />4 = leisurely 1.5 mph</td>
-        <td class="gap">&#160;</td>
+        <td>AA = 13+ miles<br />A = 9-13 miles<br />B = 5-9 miles<br />C = under 5 miles</td>
+        <td class="gap"></td>
+        <td>1 = very fast 2.5+ mph<br />2 = fast 2-2.5 mph<br />3 = moderate 1.5-2 mph<br />4 = leisurely 1.5 mph</td>
+        <td class="gap"></td>
         <td>A = very strenuous<br />B = strenuous<br />C = average<br />D = easy</td>
       </tr>
       <tr class="footnote">
-        <td colspan="5" align="center">* Pace is the leader&#8217;s
-        hiking pace on &#8220;average&#8221; terrain, such as the
+        <td colspan="5" align="center">* Pace is the leader's
+        hiking pace on "average" terrain, such as the
         hilly trails in the Blue Hills.</td>
       </tr>
       <tr class="example">
         <td colspan="5" align="center"><strong>Example:</strong><xsl:text> </xsl:text>
-        <span class="rating" onclick="window.alert('B2C: ' + this.title + '.')"  title="5–9 miles, fast 2–2.5 mph pace, average terrain"><span class="inner">B2C</span></span>
-        means 5–9 miles, fast 2–2.5 mph pace, average terrain.
+        <span class="rating" onclick="window.alert('B2C: ' + this.title + '.')"  title="5-9 miles, fast 2-2.5 mph pace, average terrain"><span class="inner">B2C</span></span>
+        means 5-9 miles, fast 2-2.5 mph pace, average terrain.
         </td>
       </tr>
     </tbody></table>
