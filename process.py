@@ -54,7 +54,7 @@ r = [
 
 prefix = """<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <?xml-stylesheet href="trips-xml-to-html-page.xsl" type="text/xsl"?>
-<listing month="January" year="2005">
+<listing month="February" year="2005">
 <printheader>
 
 <p>Young Members invites outdoor enthusiasts to get involved with the

@@ -40,6 +40,7 @@ Colors:
 .rating .inner {color: white; background-color: #369; padding: 0 2px; cursor: pointer}
 .contents td a {text-decoration: none; color: inherit}
 .contents td a:hover {text-decoration: underline}
+.contents tr.emptySection td a {text-decoration: underline; color: blue}
 .rating {font-size: 90%; color: white}
 .tagNew, .tagWaitlist, .tagFull {font-size: 90%; color: white; padding: 0 2px}
 .tagNew {background-color: green}
@@ -94,15 +95,6 @@ If you experience any problems with the email or web site, please <strong>do not
 reply to this message. Instead, please contact Andrew at
 <a href="mailto:amc2005@shearersoftware.com">amc2005@shearersoftware.com</a>.
 Thanks!</i></p>
-
-<div style="padding: 1em; background-color: #F0EBDB; margin: 1em 0"> 
-<h4 style="padding: 0; margin: 0">Young Members Winter Soiree!</h4>
-<p>Thursday, January 13, 2005 at 7 <small>PM</small><br />
-Cabot Hall Auditorium, 5 Joy Street, Boston, MA</p>
-<p>
-<b>Calling all present, past and future Young Members!</b>  Join us in 2005 for this fabulous winter gala complete with snowflakes, chocolate desserts, and unique trip opportunities.  Come to socialize, have fun, and talk to trip leaders.  All are welcome!  Bring your non-AMC friends/coworkers.  Admission is $5 for participants and $3 for leaders.  If you purchase an AMC Membership in a Bottle at the door at the low price of $35 (discounted from $50 regular membership) admission is free.  Alcohol is permitted (BYOB).</p>
-
-<p>Note: This new event combines the former YM Potlucks and Trip Planning Meetings into one. This will be the first of 4 seasonal events sponsored by YM this year as a forum for new members to learn about the AMC and old members and leaders to socialize, network and plan future trips.</p></div>
 
 
     <table class="contents" border="0" cellpadding="0" cellspacing="0">
