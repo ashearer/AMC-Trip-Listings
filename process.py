@@ -27,7 +27,7 @@ r = [
       r'<a href="http://\1">\1</a>'),
       
      # Headings
-     (re.compile(r"\bSPECIAL NOTICES:\b"),
+     (re.compile(r"SPECIAL NOTICES:"),
       "Special Notices"),
       
      (re.compile(r"\A\W*(\w+)([^<\n]*)\n\n"),

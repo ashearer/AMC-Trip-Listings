@@ -3,7 +3,7 @@
   <xsl:output encoding="UTF-8" indent="yes" method="html"/>
 
   <xsl:template match="rating">
-    <span class="rating"><xsl:attribute name="title">
+    <span class="rating" onclick="window.alert('{.}: ' + this.title + '.')"><xsl:attribute name="title">
       <xsl:choose>
         <xsl:when test="starts-with(., 'AA')">13+ miles, </xsl:when>
         <xsl:when test="starts-with(., 'A')">9-13 miles, </xsl:when>
@@ -11,16 +11,16 @@
         <xsl:when test="starts-with(., 'C')">under 5 miles, </xsl:when>
       </xsl:choose>
       <xsl:choose>
-        <xsl:when test="substring(., string-length(rating)-1, 1) = '1'">very fast 2.5+ mph, </xsl:when>
-        <xsl:when test="substring(., string-length(rating)-1, 1) = '2'">fast 2-2.5 mph, </xsl:when>
-        <xsl:when test="substring(., string-length(rating)-1, 1) = '3'">moderate 1.5-2 mph, </xsl:when>
-        <xsl:when test="substring(., string-length(rating)-1, 1) = '4'">leisurely 1.5 mph, </xsl:when>
+        <xsl:when test="substring(., string-length(.)-1, 1) = '1'">very fast 2.5+ mph, </xsl:when>
+        <xsl:when test="substring(., string-length(.)-1, 1) = '2'">fast 2-2.5 mph, </xsl:when>
+        <xsl:when test="substring(., string-length(.)-1, 1) = '3'">moderate 1.5-2 mph, </xsl:when>
+        <xsl:when test="substring(., string-length(.)-1, 1) = '4'">leisurely 1.5 mph, </xsl:when>
       </xsl:choose>
       <xsl:choose>
-        <xsl:when test="substring(., string-length(rating), 1) = 'A'">very strenuous</xsl:when>
-        <xsl:when test="substring(., string-length(rating), 1) = 'B'">strenuous</xsl:when>
-        <xsl:when test="substring(., string-length(rating), 1) = 'C'">average</xsl:when>
-        <xsl:when test="substring(., string-length(rating), 1) = 'D'">easy</xsl:when>
+        <xsl:when test="substring(., string-length(.), 1) = 'A'">very strenuous</xsl:when>
+        <xsl:when test="substring(., string-length(.), 1) = 'B'">strenuous</xsl:when>
+        <xsl:when test="substring(., string-length(.), 1) = 'C'">average</xsl:when>
+        <xsl:when test="substring(., string-length(.), 1) = 'D'">easy</xsl:when>
       </xsl:choose>
     </xsl:attribute>(<span class="inner"><xsl:value-of select="."/></span>)</span>
   </xsl:template>
@@ -30,11 +30,11 @@
     <div class="navOnly">
     <img class="pulloutPhoto" width="240" height="180"
     src="images/img_2900-sm.jpg" alt="Photo from an AMC trip" />
-    <ul class="contents">
+    <!--ul class="contents">
       <xsl:for-each select="trips">
         <li><a href="#{@link}"><xsl:value-of select="@id" /></a></li>
       </xsl:for-each>
-    </ul>
+    </ul-->
     </div>
     
     <h2><a name="how_to"></a>How To Sign Up</h2>
@@ -45,7 +45,7 @@
     <table class="contents" border="0" cellpadding="0" cellspacing="0">
       <xsl:for-each select="trips">
         <tr class="section">
-          <td colspan="2"><a href="#{@link}"><xsl:value-of select="@id"/></a></td>
+          <td colspan="2"><a href="#{@link}"><xsl:value-of select="@id"/><span class="navOnly"> &#8595;</span></a></td>
         </tr>
         <xsl:if test="not(trip)">
           <tr class="emptySection">
@@ -56,7 +56,7 @@
           <tr>
             <td class="date"><xsl:value-of select="date"/></td>
             <td class="title">
-              <a href="#{generate-id()}"><xsl:value-of select="title"/></a>
+              <a href="#{generate-id()}"><xsl:value-of select="title"/><span class="navOnly"> &#8595;</span></a>
             
               <xsl:if test="rating"><xsl:text> </xsl:text><xsl:apply-templates select="rating"/></xsl:if>
               

@@ -10,8 +10,9 @@
 <head>
 	<title>AMC Young Members - Trip Listings</title>
 	<meta name="generator" content="BBEdit 8.0" />
-    <!--link rel="stylesheet" href="ymStyle.css" type="text/css" /-->
+    <link rel="stylesheet" href="ymStyle.css" type="text/css" />
     <link rel="stylesheet" href="trip_list.css" type="text/css" />
+    <script type="text/javascript" src="trip_list.js"></script>
 </head>
 <body>
 <A name="top"></A>

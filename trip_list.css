@@ -13,23 +13,28 @@ Colors:
 #DDD Light Gray
 */
 
+/*@import('ymStyle.css');*/
 html, body, td {font: 12px/16px "Lucida Grande", Verdana, "Bitstream Vera Sans", Geneva, Arial, sans-serif}
 .pageContent {padding: 0 1em}
-.pulloutPhoto {float: right; border: 1em solid white; border-width: 0 0 1em 1em;
+.pulloutPhoto {float: right; border: 1em solid white; border-width: 0.7em 0.2em 0.7em 1em;
     background-color: white /* wipe out blue stripe while image loads */}
-h2 {background-color: #369; color: white; padding: 0.2em 0.7em; margin: 1em 0 0.5em 0; font-size: 140%}
+h2 {background-color: #369; color: white; padding: 0.2em 0.7em 0.3em 0.7em; margin: 1em 0 0.5em 0;
+    font-size: 140%; border: 1px solid #2E4C7B; border-width: 1px 0}
 
-.contents .section td {padding-top: 0.8em; border-bottom: 1px solid #369; padding-left: 0.7em; color: #A56E27; background-color: #FFF; padding-bottom: 0.3em; font-weight: bold; font-size: 110%}
+.contents .section td {padding-top: 0.8em; border-bottom: 1px solid #369; padding-left: 0.7em; color: #A56E27; background-color: #FFF; padding-bottom: 0.3em; font-weight: bold}
 .contents .date {text-align: right; vertical-align: top; white-space: nowrap; border-right: 1px solid #D4E5F7; padding-top: 0.3em; padding-left: 0.5em}
 .contents .title {vertical-align: top; padding-left: 0.7em; padding-top: 0.3em}
-.contents .rating .inner {/*vertical-align: 2px;*/ color: white; background-color: #369; padding: 0 2px}
+.contents .emptySection td {padding-left: 0.7em; padding-top: 0.3em; font-style: italic}
 
+.rating .inner {/*vertical-align: 2px;*/ color: white; background-color: #369; padding: 0 2px}
+.contents td a {text-decoration: none; color: inherit}
+.contents td a:hover {text-decoration: underline}
 .trip {margin-bottom: 0.7em; margin-top: 0.7em; padding-bottom: 0.7em; border-bottom: 0px solid #D4E5F7}
 .trip .date, .contents .date {padding-right: 0.7em; color: #1F3047}
 .trip .date {margin-right: 0.5em; font-weight: bold; border-right: 1px solid #369; }
 .trip .title {font-weight: bold}
 .rating {font-size: 90%; color: white}
-.rating .inner {color: #1F3047; border-bottom: 1px dotted gray}
+/*.rating .inner {color: #1F3047; border-bottom: 1px dotted gray}*/
 .tagNew, .tagWaitlist, .tagFull {font-size: 90%; color: white; padding: 0 2px}
 .tagNew {background-color: green}
 .tagWaitlist {background-color: yellow}
@@ -39,7 +44,7 @@ h2 {background-color: #369; color: white; padding: 0.2em 0.7em; margin: 1em 0 0.
 border-top: 1px solid gray; border-bottom: none; padding: 0.2em 0.4em 0.2em 0.4em;
 white-space: nowrap; font-size: 11px}
 .ratingKey tbody td {padding-bottom: 0.3em}
-.ratingKey thead th {padding: 0.5em 0.4em}
+.ratingKey thead th {padding: 0.5em 0.4em; font-size: 12px; text-align: center}
 .ratingKey td.gap, .ratingKey th.gap {border: none; background-color: #D4E5F7}
 .ratingKey tbody .footnote td {white-space: normal; font-style: italic; padding: 0.6em 0.4em}
 .ratingKey {margin-bottom: 1em; background-color: #D4E5F7; padding: 0.2em 1em; color: black}
