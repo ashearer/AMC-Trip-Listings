@@ -29,7 +29,7 @@
 
     <div class="navOnly">
     <img class="pulloutPhoto" width="240" height="180"
-    src="images/img_2900-sm.jpg" alt="Photo from an AMC trip" />
+    src="images/IMG_4892-crop-sm.jpg" alt="Photo from an AMC trip" />
     <!--ul class="contents">
       <xsl:for-each select="trips">
         <li><a href="#{@link}"><xsl:value-of select="@id" /></a></li>

@@ -13,7 +13,7 @@
     </head>
     <body><div class="mail">
         <style type="text/css">
-          <xsl:text disable-output-escaping="true">&lt;!--</xsl:text>
+          <xsl:text disable-output-escaping="yes">&lt;!--</xsl:text>
           <xsl:text>
 /*
 by Andrew Shearer 2004-12-26
@@ -81,8 +81,6 @@ href="mailto:youngmembers@amcboston.org">youngmembers@amcboston.org</a>.</p>
 <p>For full descriptions of the trips listed below, including
 registration information, visit:
 <a href="http://amcboston.org/youngmembers/trip_list.shtml">http://amcboston.org/youngmembers/trip_list.shtml</a>.</p>
-
-<p>(Note: the printer-friendly version of the trip listings page no longer needs a separate link; it will be used automatically when you print.)</p>
 
 <p>The trips listed in this email are subject to change, so for the most
 up-to-date list of activities, please check the listings on the web site.</p>
