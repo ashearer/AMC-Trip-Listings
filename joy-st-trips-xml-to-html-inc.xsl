@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:date="http://exslt.org/dates-and-times" extension-element-prefixes="date">
   <xsl:output encoding="UTF-8" indent="yes" method="html"/>
 
   <xsl:template match="rating">
@@ -169,12 +169,145 @@
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
+
+<xsl:template name="obfuscatedEmailLink">
+<xsl:param name="address"/>
+      <a>
+      <xsl:attribute name="href">
+        <xsl:value-of select="substring-before($address, '@')"/>
+        <xsl:text>REMOVE_123_THIS@ANTI_S.pam-</xsl:text>
+        <xsl:value-of select="substring-after($address, '@')"/>
+      </xsl:attribute>
+      <xsl:value-of select="substring($address, 1, 1)"/>
+      <span style="display: none">.REMOVE.NEXT.WORD.poodle</span>
+      <xsl:value-of select="substring-before(substring($address, 2), '@')"/>
+      <xsl:text> at </xsl:text>
+      <span style="display: none">remove6XJ29.this.text</span>
+      <xsl:value-of select="substring-after($address, '@')"/>
+      </a>
+</xsl:template>
   
   <xsl:template match="p|small|b|strong|i|em|span|div|br">
     <xsl:copy>
       <xsl:apply-templates select="*|@*|text()" />
     </xsl:copy>
   </xsl:template>
+
+<!-- Joy St. trip listing format -->
+  <xsl:template match="trips">
+    <xsl:for-each select="*">
+      <div class="trip">
+        <a name="{generate-id()}"></a>
+<div class="sponsor"><xsl:value-of select="committee"/></div>
+        <span class="date">
+<!-- ISO 8601 date manipulation depends on EXSLT -
+see http://www.xml.com/pub/a/2005/01/05/tr-xml.html -->
+<xsl:if test="trip_start_date != trip_end_date">
+<xsl:value-of select="date:day-abbreviation(trip_start_date)"/>–<xsl:value-of select="date:day-abbreviation(trip_end_date)"/><xsl:text> </xsl:text><xsl:value-of select="date:month-abbreviation(trip_start_date)"/><xsl:text> </xsl:text><xsl:value-of select="date:day-in-month(trip_start_date)"/>–<xsl:if test="date:month-abbreviation(trip_start_date) != date:month-abbreviation(trip_end_date)"><xsl:value-of select="date:month-abbreviation(trip_end_date)"/><xsl:text> </xsl:text></xsl:if><xsl:value-of select="date:day-in-month(trip_end_date)"/>
+</xsl:if>
+<xsl:if test="trip_start_date = trip_end_date">
+<xsl:value-of select="date:day-abbreviation(trip_start_date)"/><xsl:text> </xsl:text><xsl:value-of select="date:month-abbreviation(trip_start_date)"/><xsl:text> </xsl:text><xsl:value-of select="date:day-in-month(trip_start_date)"/>
+</xsl:if>
+<!--xsl:value-of select="trip_start_date"/--></span>
+        <xsl:text> </xsl:text>
+        <span class="title"><xsl:value-of select="trip_title"/></span>
+        
+        <xsl:if test="rating">
+          <xsl:text> </xsl:text>
+          <xsl:apply-templates select="rating" />
+        </xsl:if>
+        
+        <xsl:if test="@new"><xsl:text> </xsl:text><span class="tagNew">New</span></xsl:if>
+        <xsl:if test="@full or status = 'Full'"><xsl:text> </xsl:text><span class="tagFull">Full</span></xsl:if>
+        <xsl:if test="@wait or status = 'Waitlist'"><xsl:text> </xsl:text><span class="tagWaitlist">Waitlist</span></xsl:if>
+        <xsl:if test="@cancel or status = 'Cancelled' or status = 'Canceled'"><xsl:text> </xsl:text><span class="tagCancel">Cancelled</span></xsl:if>
+        <div class="desc"><xsl:apply-templates select="web_desc"/>
+
+<xsl:if test="string-length(external_link) &gt; 0">
+<xsl:choose><xsl:when test="registration_required = 'Yes'"> Reg. at </xsl:when>
+<xsl:otherwise> See </xsl:otherwise>
+</xsl:choose>
+<a href="{external_link}"><xsl:value-of select="external_link"/></a>
+</xsl:if>
+<!--xsl:if test="string-length(concat(leader1,leader2,leader3,leader4)) &gt; 0">
+<xsl:if test="string-length(coleader1,coleader2,coleader3,coleader4)) &gt; 0">
+-->
+<xsl:if test="string-length(registrar) &gt; 0">
+<xsl:text> Reg. with </xsl:text>
+<xsl:call-template name="joyst-leader">
+<xsl:with-param name="nodeName">registrar</xsl:with-param>
+</xsl:call-template>
+</xsl:if>
+
+<xsl:if test="string-length(concat(leader1,leader2,leader3,leader4)) &gt; 0">
+<span class="leaders">
+<xsl:if test="registration_required='Yes' and string-length(registrar) = 0 and string-length(external_link) = 0"> Reg w/ </xsl:if><xsl:text> L </xsl:text>
+<xsl:call-template name="joyst-leader">
+<xsl:with-param name="nodeName">leader1</xsl:with-param>
+</xsl:call-template>
+<xsl:call-template name="joyst-leader">
+<xsl:with-param name="nodeName">leader2</xsl:with-param>
+</xsl:call-template>
+<xsl:call-template name="joyst-leader">
+<xsl:with-param name="nodeName">leader3</xsl:with-param>
+</xsl:call-template>
+<xsl:call-template name="joyst-leader">
+<xsl:with-param name="nodeName">leader4</xsl:with-param>
+</xsl:call-template>.</span></xsl:if>
+<xsl:if test="string-length(concat(coleader1,coleader2,coleader3,coleader4)) &gt; 0">
+<span class="leaders"><xsl:text> CL </xsl:text>
+<xsl:call-template name="joyst-leader">
+<xsl:with-param name="nodeName">coleader1</xsl:with-param>
+</xsl:call-template>
+<xsl:call-template name="joyst-leader">
+<xsl:with-param name="nodeName">coleader2</xsl:with-param>
+</xsl:call-template>
+<xsl:call-template name="joyst-leader">
+<xsl:with-param name="nodeName">coleader3</xsl:with-param>
+</xsl:call-template>
+<xsl:call-template name="joyst-leader">
+<xsl:with-param name="nodeName">coleader4</xsl:with-param>
+</xsl:call-template>.</span></xsl:if>
+
+<!--xsl:if test="string-length(leader2) &gt; 0"><xsl:text>, </xsl:text>
+  <xsl:value-of select="leader2"/>
+<xsl:if test="string-length(leader2_email) &gt; 0"><xsl:text> </xsl:text>
+  <xsl:value-of select="leader2_email"/></xsl:if>
+<xsl:if test="string-length(leader2_phone) &gt; 0"><xsl:text> </xsl:text>
+  <xsl:value-of select="leader2_phone"/>
+<xsl:if test="string-length(leader2_call_time) &gt; 0"><xsl:text> </xsl:text>
+  <xsl:value-of select="leader2_call_time"/></xsl:if></xsl:if>
+</xsl:if-->
+</div>
+
+      </div>
+    </xsl:for-each>
+
+
+    <!--div style="text-align: right"><a href="#top">Top Of Page</a></div-->
+    <xsl:for-each select="p">
+      <xsl:copy>
+      <xsl:apply-templates select="*|@*|text()"/>
+      </xsl:copy>
+    </xsl:for-each>
+  </xsl:template>
+
+<xsl:template name="joyst-leader">
+<xsl:param name="prefixDelim">, </xsl:param>
+<xsl:param name="nodeName">leader1</xsl:param>
+
+<xsl:if test="string-length(*[name()=$nodeName]) &gt; 0"><xsl:value-of select="prefixDelim"/>
+  <xsl:value-of select="*[name()=$nodeName]"/>
+<xsl:if test="string-length(*[name()=concat($nodeName,'_email')]) &gt; 0"><xsl:text> </xsl:text>
+  <!--xsl:value-of select="*[name()=concat($nodeName,'_email')]"/>-->
+<xsl:call-template name="obfuscatedEmailLink"><xsl:with-param name="address"><xsl:value-of select="*[name()=concat($nodeName,'_email')]"/></xsl:with-param></xsl:call-template></xsl:if>
+<xsl:if test="string-length(*[name()=concat($nodeName,'_phone')]) &gt; 0"><xsl:text> </xsl:text>
+  <xsl:value-of select="*[name()=concat($nodeName,'_phone')]"/>
+<xsl:if test="string-length(*[name()=concat($nodeName, '_call_time')]) &gt; 0"><xsl:text> </xsl:text>
+  <xsl:value-of select="*[name()=concat($nodeName, '_call_time')]"/></xsl:if></xsl:if>
+</xsl:if>
+</xsl:template>
+
 </xsl:stylesheet>
 
 <!-- 

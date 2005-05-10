@@ -44,7 +44,7 @@ Colors:
 .rating {font-size: 90%; color: white}
 .tagNew, .tagWaitlist, .tagFull {font-size: 90%; color: white; padding: 0 2px}
 .tagNew {background-color: green}
-.tagWaitlist {background-color: yellow}
+.tagWaitlist {background-color: yellow; color: #666666; border: 1px solid #666666}
 .tagFull {background-color: red}
 .mail .ratingKey {margin-top: 1em}
 .ratingKey tbody td, .ratingKey tbody th {vertical-align: top; text-align: left;
