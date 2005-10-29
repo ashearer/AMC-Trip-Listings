@@ -239,34 +239,41 @@
       <div class="desc"><xsl:apply-templates select="web_desc"/>
 
         <br />
-        <xsl:if test="string-length(external_link) &gt; 0">
+        <xsl:if test="registration_required = 'Yes' and not(normalize-space(registrar)) and not(normalize-space(external_link))">Reg. req&#8217;d. </xsl:if>
+        <xsl:if test="normalize-space(external_link)">
+        
           <xsl:choose>
-            <xsl:when test="registration_required = 'Yes' and string-length(registrar) = 0"> Reg. at </xsl:when>
+            <xsl:when test="registration_required = 'Yes' and not(normalize-space(registrar))"> Reg. at </xsl:when>
             <xsl:otherwise> See </xsl:otherwise>
           </xsl:choose>
           <a href="{external_link}"><xsl:value-of select="external_link"/></a>.<xsl:text> </xsl:text>
         </xsl:if>
         
-        <xsl:if test="string-length(registrar) &gt; 0 and registrar != leader1 and registrar != coleader1">
+        <xsl:variable name="regOverridesCL1" select="normalize-space(registrar) and registrar = coleader1 and (not(normalize-space(coleader1_phone)) or registrar_phone = coleader1_phone) and (not(normalize-space(coleader1_email)) or registrar_email = coleader1_email)"/>
+        <xsl:variable name="regOverridesL1" select="not($regOverridesCL1) and normalize-space(registrar) and registrar = leader1 and (not(normalize-space(leader1_phone)) or registrar_phone = leader1_phone) and (not(normalize-space(leader1_email)) or registrar_email = leader1_email)"/>
+        
+        <xsl:if test="normalize-space(registrar)">
           <xsl:text> Reg. with </xsl:text>
+          <xsl:if test="$regOverridesCL1"> CL </xsl:if>
+          <xsl:if test="$regOverridesL1"> L </xsl:if>
           <xsl:call-template name="joyst-leader">
             <xsl:with-param name="prefixDelim"/>
             <xsl:with-param name="nodeName">registrar</xsl:with-param>
           </xsl:call-template>
           <xsl:text>. </xsl:text>
         </xsl:if>
-        
-        <xsl:if test="string-length(concat(leader1,leader2,leader3,leader4)) &gt; 0">
-          <span class="leaders">
-          <xsl:if test="(registration_required='Yes' and string-length(registrar) = 0 and string-length(external_link) = 0) or registrar = leader1"> Reg. with </xsl:if>
+                
+        <xsl:if test="(normalize-space(leader1) and not($regOverridesL1)) or normalize-space(concat(leader2,leader3,leader4))">
+         <span class="leaders">
           <xsl:text>L </xsl:text>
+          <xsl:if test="not($regOverridesL1)">
+            <xsl:call-template name="joyst-leader">
+              <xsl:with-param name="isFirst">1</xsl:with-param>
+              <xsl:with-param name="nodeName">leader1</xsl:with-param>
+            </xsl:call-template>
+          </xsl:if>
           <xsl:call-template name="joyst-leader">
-            <xsl:with-param name="prefixDelim"/>
-            <xsl:with-param name="nodeName">leader1</xsl:with-param>
-          </xsl:call-template>
-          <xsl:call-template name="joyst-leader">
-            <!--xsl:if test="(registration_required='Yes' and string-length(registrar) = 0 and string-length(external_link) = 0) or registrar = leader1"><xsl:with-param name="prefixDelim">. Other L </xsl:with-param></xsl:if>
-            -->
+            <xsl:with-param name="isFirst" select="$regOverridesL1"/>
             <xsl:with-param name="nodeName">leader2</xsl:with-param>
           </xsl:call-template>
           <xsl:call-template name="joyst-leader">
@@ -276,17 +283,19 @@
             <xsl:with-param name="nodeName">leader4</xsl:with-param>
           </xsl:call-template>. </span>
         </xsl:if>
-        <xsl:if test="string-length(concat(coleader1,coleader2,coleader3,coleader4)) &gt; 0">
+        
+        
+        <xsl:if test="(normalize-space(coleader1) and not($regOverridesCL1)) or normalize-space(concat(coleader2,coleader3,coleader4))">
           <span class="leaders">
-          <xsl:if test="registrar = coleader1">Reg. with </xsl:if>
           <xsl:text>CL </xsl:text>
+          <xsl:if test="not($regOverridesCL1)">
+            <xsl:call-template name="joyst-leader">
+              <xsl:with-param name="isFirst">1</xsl:with-param>
+              <xsl:with-param name="nodeName">coleader1</xsl:with-param>
+            </xsl:call-template>
+          </xsl:if>
           <xsl:call-template name="joyst-leader">
-            <xsl:with-param name="prefixDelim"/>
-            <xsl:with-param name="nodeName">coleader1</xsl:with-param>
-          </xsl:call-template>
-          <xsl:call-template name="joyst-leader">
-            <!--xsl:if test="registrar = coleader1"><xsl:with-param name="prefixDelim">. Other CL </xsl:with-param></xsl:if>
-            -->
+            <xsl:with-param name="isFirst" select="$regOverridesCL1"/>
             <xsl:with-param name="nodeName">coleader2</xsl:with-param>
           </xsl:call-template>
           <xsl:call-template name="joyst-leader">
@@ -297,33 +306,30 @@
           </xsl:call-template>.</span>
         </xsl:if>
         
-        <!--xsl:if test="string-length(leader2) &gt; 0"><xsl:text>, </xsl:text>
-          <xsl:value-of select="leader2"/>
-        <xsl:if test="string-length(leader2_email) &gt; 0"><xsl:text> </xsl:text>
-          <xsl:value-of select="leader2_email"/></xsl:if>
-        <xsl:if test="string-length(leader2_phone) &gt; 0"><xsl:text> </xsl:text>
-          <xsl:value-of select="leader2_phone"/>
-        <xsl:if test="string-length(leader2_call_time) &gt; 0"><xsl:text> </xsl:text>
-          <xsl:value-of select="leader2_call_time"/></xsl:if></xsl:if>
-        </xsl:if-->
       </div>
       
     </div>
   </xsl:template>
 
   <xsl:template name="joyst-leader">
-    <xsl:param name="prefixDelim">, </xsl:param>
     <xsl:param name="nodeName">leader1</xsl:param>
+    <xsl:param name="isFirst">0</xsl:param>
     
-    <xsl:if test="string-length(*[name()=$nodeName]) &gt; 0"><xsl:value-of select="$prefixDelim"/>
+    <xsl:if test="normalize-space(*[name()=$nodeName])">
+      <xsl:if test="not($isFirst)">, </xsl:if>
+      <!--xsl:if test="$isRegistrar">Reg. with </xsl:if-->
       <xsl:value-of select="*[name()=$nodeName]"/>
-    <xsl:if test="string-length(*[name()=concat($nodeName,'_email')]) &gt; 0"><xsl:text> </xsl:text>
-      <!--xsl:value-of select="*[name()=concat($nodeName,'_email')]"/>-->
-    <xsl:call-template name="obfuscatedEmailLink"><xsl:with-param name="address">mailto:<xsl:value-of select="*[name()=concat($nodeName,'_email')]"/></xsl:with-param></xsl:call-template></xsl:if>
-    <xsl:if test="string-length(*[name()=concat($nodeName,'_phone')]) &gt; 0"><xsl:text> </xsl:text>
-      <xsl:value-of select="*[name()=concat($nodeName,'_phone')]"/>
-    <xsl:if test="string-length(*[name()=concat($nodeName, '_call_time')]) &gt; 0"><xsl:text> </xsl:text>
-      <xsl:value-of select="*[name()=concat($nodeName, '_call_time')]"/></xsl:if></xsl:if>
+      <xsl:variable name="email" select="*[name()=concat($nodeName,'_email')]"/>
+      <xsl:if test="normalize-space($email)"><xsl:text> </xsl:text>
+        <xsl:call-template name="obfuscatedEmailLink"><xsl:with-param name="address">mailto:<xsl:value-of select="$email"/></xsl:with-param></xsl:call-template>
+      </xsl:if>
+      <xsl:variable name="phone" select="*[name()=concat($nodeName,'_phone')]"/>
+      <xsl:if test="normalize-space($phone)"><xsl:text> </xsl:text>
+        <xsl:value-of select="$phone"/>
+        <xsl:if test="normalize-space(*[name()=concat($nodeName, '_call_time')])"><xsl:text> </xsl:text>
+          <xsl:value-of select="*[name()=concat($nodeName, '_call_time')]"/>
+        </xsl:if>
+      </xsl:if>
     </xsl:if>
   </xsl:template>
   
