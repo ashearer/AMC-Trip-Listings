@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:date="http://exslt.org/dates-and-times"
+    extension-element-prefixes="date">
+  <xsl:import href="amc-trips-to-html-inc.xsl" />
+  <!--xsl:import href="functions/date/date.add.template.xsl"/-->
+  <xsl:import href="functions/date/date.add.function.xsl"/>
   <xsl:output encoding="UTF-8" indent="yes" method="text"/>
-  <xsl:include href="joy-st-trips-xml-to-html-inc.xsl" />
+  <xsl:param name="groupTitle">AMC</xsl:param>
+  <xsl:template name="obfuscatedEmailLink">
+    <xsl:param name="address"/>
+    <xsl:value-of select="$address"/>
+  </xsl:template>
+
   <xsl:template match="trips">
+
 
     <xsl:call-template name="emit_text">
       <xsl:with-param name="line">
@@ -18,7 +29,9 @@
       
     <xsl:call-template name="emit_text">
       <xsl:with-param name="line">
-        <xsl:text>X-WR-CALNAME:AMC Trip Listings</xsl:text>
+        <xsl:text>X-WR-CALNAME:</xsl:text>
+        <xsl:value-of select="$groupTitle"/>
+        <xsl:text> Trip Listings</xsl:text>
       </xsl:with-param>
     </xsl:call-template>
       
@@ -80,7 +93,7 @@
       <xsl:call-template name="emit_text">
         <xsl:with-param name="line">
           <xsl:text>DTSTAMP:</xsl:text>
-          <xsl:call-template name="USToW3CDate">
+          <xsl:call-template name="USToW3CDateTime">
             <xsl:with-param name="date" select="last_updated"/><!-- +++ must convert to UTC -->
           </xsl:call-template>
         </xsl:with-param>
@@ -89,7 +102,7 @@
       <xsl:call-template name="emit_text">
         <xsl:with-param name="line">
           <xsl:text>LAST-MODIFIED:TZID=US/Eastern:</xsl:text>
-          <xsl:call-template name="USToW3CDate">
+          <xsl:call-template name="USToW3CDateTime">
             <xsl:with-param name="date" select="last_updated"/>
           </xsl:call-template>
         </xsl:with-param>
@@ -107,9 +120,23 @@
       <xsl:call-template name="emit_text">
         <xsl:with-param name="line">
           <xsl:text>DTEND;TZID=US/Eastern:</xsl:text>
-          <xsl:call-template name="USToW3CDate">
-            <xsl:with-param name="date" select="trip_end_date"/>
-          </xsl:call-template>
+          <xsl:choose>
+            <xsl:when test="function-available('date:add')">
+              <xsl:call-template name="USToW3CDate">
+                <xsl:with-param name="date" select="date:add(substring(trip_end_date, 0, 11),'P1D')"/>
+              </xsl:call-template>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:call-template name="USToW3CDate">
+                <xsl:with-param name="date">
+                  <xsl:call-template name="date:add">
+                    <xsl:with-param name="date-time" select="substring(trip_end_date, 0, 11)"/>
+                    <xsl:with-param name="duration" select="'P1D'"/>
+                  </xsl:call-template>
+                </xsl:with-param>
+              </xsl:call-template>
+            </xsl:otherwise>
+          </xsl:choose>
         </xsl:with-param>
       </xsl:call-template>
       
@@ -323,7 +350,7 @@ Also, each line was progressively one char shorter. -->
        <xsl:call-template name="my-replace-string">
          <xsl:with-param name="text" select="$text4"/>
          <xsl:with-param name="from" select="';'"/>
-         <xsl:with-param name="to" select="';'"/> <!-- disabled -->
+         <xsl:with-param name="to" select="'\;'"/>
        </xsl:call-template>
      </xsl:variable>
      <xsl:variable name="text6">
@@ -364,6 +391,14 @@ Also, each line was progressively one char shorter. -->
    </xsl:template>
    
   <xsl:template name="USToW3CDate">
+    <xsl:param name="date"/>
+ 
+    <xsl:value-of select="substring($date,1,4)"/>
+    <xsl:value-of select="substring($date,6,2)"/>
+    <xsl:value-of select="substring($date,9,2)"/>
+  </xsl:template>
+   
+  <xsl:template name="USToW3CDateTime">
     <xsl:param name="date"/>
  
     <xsl:value-of select="substring($date,1,4)"/>
