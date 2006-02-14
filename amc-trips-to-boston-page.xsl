@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-  <xsl:include href="trips-xml-to-html-inc.xsl" />
-  <xsl:output encoding="UTF-8" indent="yes" method="html"/>
+  <xsl:param name="groupTitle">AMC Boston Young Members</xsl:param>
+  <xsl:param name="byDate" select="1"/>
+  <xsl:include href="amc-trips-to-html-inc.xsl" />
+  <xsl:output encoding="UTF-8" indent="yes" method="html"
+    doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN"
+    doctype-system="http://www.w3.org/TR/html4/loose.dtd"/>
   <xsl:template match="/">
 
-<!--!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-        "http://www.w3.org/TR/html4/loose.dtd"-->
 <html>
 <head>
-	<title>AMC Young Members - Trip Listings</title>
-	<meta name="generator" content="BBEdit 8.0" />
-    <link rel="stylesheet" href="ymStyle.css" type="text/css" />
-    <link rel="stylesheet" href="trip_list.css" type="text/css" />
-    <script type="text/javascript" src="trip_list.js"></script>
+  <title>AMC Boston Young Members - Trip Listings</title>
+  <meta name="generator" content="Boston AMC XSLT stylesheet by Andrew Shearer" />
+  <link rel="stylesheet" href="ymStyle.css" type="text/css" />
+  <link rel="stylesheet" href="trip_list.css" type="text/css" />
+  <meta http-equiv="content-type" value="text/html;charset=utf-8" />
+  <script type="text/javascript" src="trip_list.js"></script>
+  <base href="http://amcboston.org/youngmembers/trip_list.shtml" />
 </head>
 <body>
 <A name="top"></A>
@@ -146,7 +150,7 @@
      THE XXX_TRIP_BODY.HTML FILE HERE!
      *********************************************************************** -->
 
-      <xsl:apply-templates select="listing" />
+      <xsl:apply-templates/>
 
 <!-- ***********************************************************************
      [END_MONTHLY_TRIP_LISTINGS] - CUT AND PASTE TRIP LISTINGS FROM
@@ -155,17 +159,16 @@
 <p>
 <a target="_top" href="http://t.extreme-dm.com/?login=ymtrips">
 <img src="http://u1.extreme-dm.com/i.gif" height="38"
-border="0" width="41" alt="" /></a><xsl:text disable-output-escaping="yes"><![CDATA[
-<script language="javascript1.2" type="text/javascript"><!--
+border="0" width="41" alt="" /></a>
+<script language="javascript1.2" type="text/javascript">
 EXs=screen;EXw=EXs.width;navigator.appName!="Netscape"?
-EXb=EXs.colorDepth:EXb=EXs.pixelDepth;//-->
-</script><script language="javascript" type="text/javascript"><!--
+EXb=EXs.colorDepth:EXb=EXs.pixelDepth;
+</script><script language="javascript" type="text/javascript">
 EXd=document;EXw?"":EXw="na";EXb?"":EXb="na";
-EXd.write("<img src=\"http://t0.extreme-dm.com",
-"/0.gif?tag=ymtrips&j=y&srw="+EXw+"&srb="+EXb+"&",
-"l="+escape(EXd.referrer)+"\" height=1 width=1>");//-->
+EXd.write("&lt;img src=\"http://t0.extreme-dm.com",
+"/0.gif?tag=ymtrips&amp;j=y&amp;srw="+EXw+"&amp;srb="+EXb+"&amp;",
+"l="+escape(EXd.referrer)+"\" height=1 width=1&gt;");
 </script>
-]]></xsl:text>
 </p>
 
   </TD>

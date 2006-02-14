@@ -5,12 +5,12 @@
     extension-element-prefixes="date">
 
 
-  <xsl:import href="functions/day-abbreviation/date.day-abbreviation.template.xsl"/>
+  <!--xsl:import href="day-abbreviation/date.day-abbreviation.xsl"/>
   
   
-  <xsl:import href="functions/month-abbreviation/date.month-abbreviation.template.xsl"/>
+  <xsl:import href="month-abbreviation/date.month-abbreviation.xsl"/>
   
-  <xsl:import href="functions/day-in-month/date.day-in-month.template.xsl"/>
+  <xsl:import href="day-in-month/date.day-in-month.xsl"/-->
 
 
   <xsl:output encoding="UTF-8" indent="yes" method="html"/>

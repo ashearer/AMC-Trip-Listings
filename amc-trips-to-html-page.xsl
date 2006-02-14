@@ -3,6 +3,7 @@
   <xsl:param name="groupTitle">AMC</xsl:param>
   <xsl:param name="rssURL"/>
   <xsl:param name="icsURL"/>
+  <xsl:param name="byDate" select="0"/>
   <xsl:include href="amc-trips-to-html-inc.xsl" />
   <xsl:output encoding="UTF-8" indent="yes" method="html"/>
   

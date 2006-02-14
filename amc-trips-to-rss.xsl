@@ -3,8 +3,8 @@
  xmlns:g="http://base.google.com/ns/1.0"
  xmlns:dcterms="http://purl.org/dc/terms/"
  xmlns:dc="http://purl.org/dc/elements/1.1/">
-  <xsl:include href="amc-trips-to-html-inc.xsl"/>
-  <xsl:output encoding="UTF-8" indent="yes"/>
+  <xsl:import href="amc-trips-to-html-inc.xsl"/>
+  <xsl:output encoding="UTF-8" indent="yes" method="xml" media-type="application/rss+xml" standalone="yes"/>
   <xsl:param name="groupTitle">AMC</xsl:param>
   <xsl:param name="groupHomePageURL"/>
   <xsl:param name="listingsURL"/>
@@ -48,19 +48,19 @@
         <xsl:call-template name="regAndLeaderInfo"/-->
       </description>
       
-      <xsl:if test="normalize-space(external_link)">
-        <link><xsl:value-of select="external_link"/></link> <!-- +++ link to event desc on ashearer.com -->
-      </xsl:if>
+      <!-- not using external_link; using link to ashearer.com instead -->
+      
       <guid isPermaLink="true"><xsl:value-of select="$listingsURL"/>#trip<xsl:value-of select="trip_id"/></guid>
+      <link><xsl:value-of select="$listingsURL"/>#trip<xsl:value-of select="trip_id"/></link>
     
       <g:event_date_range>
         <g:start>
-          <xsl:call-template name="FixW3CDate">
+          <xsl:call-template name="FixW3CDateTime">
             <xsl:with-param name="date" select="trip_start_date"/>
           </xsl:call-template>
         </g:start>
         <g:end>
-          <xsl:call-template name="FixW3CDate">
+          <xsl:call-template name="FixW3CDateEndOfDay">
             <xsl:with-param name="date" select="trip_end_date"/>
           </xsl:call-template>
         </g:end>
@@ -80,21 +80,24 @@
       
       <xsl:if test="normalize-space(activity_category)">
         <category><xsl:value-of select="activity_category"/></category>
-        <g:tag><xsl:value-of select="activity_category"/></g:tag>
+        <g:label><xsl:value-of select="activity_category"/></g:label>
       </xsl:if>
       <xsl:if test="normalize-space(activity_category2) and activity_category2 != activity_category">
-        <g:tag><xsl:value-of select="activity_category2"/></g:tag>
+        <g:label><xsl:value-of select="activity_category2"/></g:label>
       </xsl:if>
       <xsl:if test="normalize-space(committee) and committee != activity_category2 and committee != activity_category">
-        <g:tag><xsl:value-of select="activity_category2"/></g:tag>
+        <g:label><xsl:value-of select="committee"/></g:label>
       </xsl:if>
+      
+      <g:label>AMC</g:label>
+      <g:label><xsl:value-of select="$groupTitle"/></g:label>
       
       <g:location>
         <xsl:if test="normalize-space(trip_location)">
-          <xsl:value-of select="trip_location"/>, 
+          <xsl:value-of select="trip_location"/><xsl:text>, </xsl:text>
         </xsl:if>
         <xsl:if test="normalize-space(trip_state)">
-          <xsl:value-of select="trip_state"/>, 
+          <xsl:value-of select="trip_state"/><xsl:text>, </xsl:text> 
         </xsl:if>
         <xsl:value-of select="trip_country"/>
       </g:location>
@@ -185,6 +188,15 @@
     <xsl:value-of select="substring($date,1,10)"/>
     <xsl:text>T</xsl:text>
     <xsl:value-of select="substring($date,12,8)"/>
+  </xsl:template>
+   
+  <xsl:template name="FixW3CDateEndOfDay">
+    <!-- make a W3C datetime like 2001-01-01T23:59:59 representing
+    the end of a day out of a string representing the date -->
+    <xsl:param name="date"/>
+ 
+    <xsl:value-of select="substring($date,1,10)"/>
+    <xsl:text>T23:59:59</xsl:text>
   </xsl:template>
    
 </xsl:stylesheet>

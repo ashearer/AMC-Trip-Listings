@@ -38,7 +38,7 @@ Colors:
 */
 
 .mail, .mail td {font: 12px/16px "Lucida Grande", Verdana, "Bitstream Vera Sans", Geneva, Arial, sans-serif}
-.mail h2 {background-color: #369; color: white; padding: 0.2em 0.7em 0.3em 0.7em; margin: 1em 0 0.5em 0;
+.mail h3 {background-color: #369; color: white; padding: 0.2em 0.7em 0.3em 0.7em; margin: 1em 0 0.5em 0;
     font-size: 140%; border: 1px solid #2E4C7B; border-width: 1px 0}
 .contents .date {text-align: right; vertical-align: top; white-space: nowrap; border-right: 1px solid #D4E5F7; padding-top: 0.3em; padding-left: 0.5em; padding-right: 0.7em}
 .contents .title {vertical-align: top; padding-left: 0.7em; padding-top: 0.3em; color: black}
@@ -49,10 +49,10 @@ Colors:
 .contents td a:hover {text-decoration: underline}
 .contents tr.emptySection td a {text-decoration: underline; color: blue}
 .rating {font-size: 90%; color: white}
-.tagNew, .tagWaitlist, .tagFull {font-size: 90%; color: white; padding: 0 2px}
+.tagNew, .tagWaitlist, .tagFull, .tagCancel {font-size: 90%; color: white; padding: 0 2px}
 .tagNew {background-color: green}
 .tagWaitlist {background-color: yellow; color: #666666; border: 1px solid #666666}
-.tagFull {background-color: red}
+.tagFull, .tagCancel {background-color: red}
 .mail .ratingKey {margin-top: 1em}
 .ratingKey tbody td, .ratingKey tbody th {vertical-align: top; text-align: left;
 border-top: 1px solid gray; border-bottom: none; padding: 0.2em 0.4em 0.2em 0.4em;
@@ -71,7 +71,28 @@ white-space: nowrap; font-size: 11px}
     </body>
     </html>
   </xsl:template>
-     <xsl:key name="trips-by-category" match="*" use="activity_category"/>
+  
+  <xsl:template name="trip-row">
+          <tr>
+            <td class="date"><xsl:call-template name="date-range">
+              <xsl:with-param name="start_date"><xsl:value-of select="trip_start_date"/></xsl:with-param>
+              <xsl:with-param name="end_date"><xsl:value-of select="trip_end_date"/></xsl:with-param>
+              </xsl:call-template></td>
+            <td>&#160;</td>
+            <td class="title">
+              <a href="{concat('http://amcboston.org/youngmembers/trip_list.shtml#trip', trip_id)}"><xsl:value-of select="trip_title"/></a>
+            
+              <xsl:if test="rating"><xsl:text> </xsl:text><xsl:apply-templates select="rating"/></xsl:if>
+              
+              <xsl:if test="@new"><xsl:text> </xsl:text><span class="tagNew">New</span></xsl:if>
+              <xsl:if test="@full or status = 'Full'"><xsl:text> </xsl:text><span class="tagFull">Full</span></xsl:if>
+              <xsl:if test="@wait or status = 'Waitlist'"><xsl:text> </xsl:text><span class="tagWaitlist">Waitlist</span></xsl:if>
+              <xsl:if test="@cancel or status = 'Cancelled' or status = 'Canceled'"><xsl:text> </xsl:text><span class="tagCancel">Cancelled</span></xsl:if>
+            </td>
+          </tr>
+  </xsl:template>
+  
+  <xsl:key name="trips-by-category" match="*" use="activity_category"/>
  
   <xsl:template match="trips">
 <h2>Boston AMC Young Members Trip Listings</h2>
@@ -102,13 +123,12 @@ reply to this message. Instead, please contact Andrew at
 <a href="mailto:amc2005@shearersoftware.com">amc2005@shearersoftware.com</a>.
 Thanks!</i></p>
 
-
     <table class="contents" border="0" cellpadding="0" cellspacing="0">
       <!-- Muenchian method for grouping by activity_category -->
       <xsl:for-each select="*[count(. | key('trips-by-category', activity_category)[1]) = 1]">
         <xsl:sort select="activity_category"/>
         <tr class="section">
-          <td colspan="2"> <br/><h2><a href="http://amcboston.org/youngmembers/trip_list.shtml#{substring(activity_category, 1, 5)}"><xsl:value-of select="activity_category"/></a></h2></td>
+          <td colspan="3"> <br/><h3><a href="http://amcboston.org/youngmembers/trip_list.shtml#{substring(activity_category, 1, 5)}"><xsl:value-of select="activity_category"/></a></h3></td>
         </tr>
         <!--xsl:if test="not(*)">
           <tr class="emptySection">
@@ -116,23 +136,18 @@ Thanks!</i></p>
           </tr>
         </xsl:if-->
         <xsl:for-each select="key('trips-by-category', activity_category)">
-          <tr>
-            <td class="date"><xsl:call-template name="date-range">
-              <xsl:with-param name="start_date"><xsl:value-of select="trip_start_date"/></xsl:with-param>
-              <xsl:with-param name="end_date"><xsl:value-of select="trip_end_date"/></xsl:with-param>
-              </xsl:call-template></td>
-            <td class="title">
-              <a href="{concat('http://amcboston.org/youngmembers/trip_list.shtml#trip', trip_id)}"><xsl:value-of select="trip_title"/><span class="navOnly"> &#8595;</span></a>
-            
-              <xsl:if test="rating"><xsl:text> </xsl:text><xsl:apply-templates select="rating"/></xsl:if>
-              
-              <xsl:if test="@new"><xsl:text> </xsl:text><span class="tagNew">New</span></xsl:if>
-              <xsl:if test="@full or status = 'Full'"><xsl:text> </xsl:text><span class="tagFull">Full</span></xsl:if>
-              <xsl:if test="@wait or status = 'Waitlist'"><xsl:text> </xsl:text><span class="tagWaitlist">Waitlist</span></xsl:if>
-              <xsl:if test="@cancel or status = 'Cancelled' or status = 'Canceled'"><xsl:text> </xsl:text><span class="tagCancel">Cancelled</span></xsl:if>
-            </td>
-          </tr>
+          <xsl:call-template name="trip-row"/>
         </xsl:for-each>
+      </xsl:for-each>
+    </table>
+
+
+
+    <h3>All Events by Date</h3>
+    <table class="contents" border="0" cellpadding="0" cellspacing="0">
+      <xsl:for-each select="*">
+        <xsl:sort select="trip_start_date"/>
+        <xsl:call-template name="trip-row"/>
       </xsl:for-each>
     </table>
         <!--xsl:if test="not(trip)">
