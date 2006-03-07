@@ -7,8 +7,44 @@
   <xsl:import href="functions/day-abbreviation/date.day-abbreviation.template.xsl"/>
   <xsl:import href="functions/month-abbreviation/date.month-abbreviation.template.xsl"/>
   <xsl:import href="functions/day-in-month/date.day-in-month.template.xsl"/>
+  <xsl:import href="functions/date/date.add.template.xsl"/>
   <xsl:import href="trip-rating.inc.xsl"/>
   <!--xsl:output encoding="UTF-8" indent="yes" method="html"/-->
+    
+  <!-- URL for trip listings page; leave as the empty string to generate
+  internal links to the trip anchors -->
+  <xsl:param name="tripListingsPageLink" select="''"></xsl:param>
+  
+  <!-- Show "Updated" tag if the trip has been updated with the last n days
+  (updateHorizonDays param). Show "Cancel" tag for n days after a trip has
+  been cancelled (cancelHorizonDays param), but hide the trip entirely after that,
+  so the listing doesn't stay polluted with cancelled trips, esp. since trips
+  have often been cancelled just in order to be replaced with a new trip on the
+  same day).
+  -->
+  
+  <xsl:param name="updateHorizonDays" select="14"/>
+  <xsl:param name="cancelHorizonDays" select="7"></xsl:param>
+  
+  <!-- Compute numeric updateHorizon and cancelHorizon in YYYYMMDD format
+  based on updateHorizonDays, cancelHorizonDays, and the current date.
+  Use purely numeric YYYYMMDD format because XSLT 1.0 only allows numeric
+  less/greater comparisons. -->
+  <xsl:variable name="updateHorizon">
+    <xsl:call-template name="date:add">
+      <xsl:with-param name="date-time" select="date:date-time()"/>
+      <xsl:with-param name="duration" select="concat('-P',$updateHorizonDays,'D')"/>
+    </xsl:call-template>
+  </xsl:variable>
+  <xsl:variable name="updateHorizonNumeric" select="translate(substring($updateHorizon, 1, 10),'-','')"/>
+  <xsl:variable name="cancelHorizon">
+    <xsl:call-template name="date:add">
+      <xsl:with-param name="date-time" select="date:date-time()"/>
+      <xsl:with-param name="duration" select="concat('-P',$cancelHorizonDays,'D')"/>
+    </xsl:call-template>
+  </xsl:variable>
+  <xsl:variable name="cancelHorizonNumeric" select="translate(substring($cancelHorizon, 1, 10),'-','')"/>
+  
 
   <xsl:template match="listing">
 
@@ -138,6 +174,10 @@
   <!-- Joy St. trip listing format -->
   
   <xsl:template name="trip-summary-row">
+      <xsl:variable name="lastUpdatedNumeric" select="translate(substring(last_updated, 1, 10),'-','')"/>
+      <!-- above line translates date (in standard YYYY-MM-DDTHH:MM:SS... format)
+      to purely numeric YYYYMMDD format, because XSLT allows only numeric comparisons -->
+      <xsl:if test="(status != 'Cancelled' and status != 'Canceled') or $lastUpdatedNumeric &gt;= $cancelHorizonNumeric">
           <tr>
             <td class="date"><xsl:call-template name="date-range">
               <xsl:with-param name="start_date"><xsl:value-of select="trip_start_date"/></xsl:with-param>
@@ -155,16 +195,30 @@
                   <xsl:with-param name="rating" select="$rating"/>
                 </xsl:call-template>
               </xsl:variable>
-              <a href="{concat('#trip', trip_id)}"><xsl:value-of select="$title"/><span class="navOnly"> &#8595;</span></a>
-            
-              <xsl:if test="normalize-space($rating)"><xsl:text> </xsl:text><xsl:call-template name="rating"><xsl:with-param name="rating" select="$rating"/></xsl:call-template></xsl:if>
+              <a href="{concat($tripListingsPageLink, '#trip', trip_id)}"><xsl:value-of select="$title"/><span class="navOnly"> &#8595;</span></a>
               
-              <xsl:if test="@new"><xsl:text> </xsl:text><span class="tagNew">New</span></xsl:if>
-              <xsl:if test="@full or status = 'Full'"><xsl:text> </xsl:text><span class="tagFull">Full</span></xsl:if>
-              <xsl:if test="@wait or status = 'Waitlist'"><xsl:text> </xsl:text><span class="tagWaitlist">Waitlist</span></xsl:if>
-              <xsl:if test="@cancel or status = 'Cancelled' or status = 'Canceled'"><xsl:text> </xsl:text><span class="tagCancel">Cancelled</span></xsl:if>
+              
+              <xsl:if test="normalize-space($rating)"><xsl:text> </xsl:text><xsl:call-template name="rating"><xsl:with-param name="rating" select="$rating"/></xsl:call-template></xsl:if>
+              <xsl:choose>
+                <xsl:when test="@cancel or status = 'Cancelled' or status = 'Canceled'">
+                  <xsl:text> </xsl:text><span class="tagCancel">Cancelled</span>
+                </xsl:when>
+                <xsl:when test="@full or status = 'Full'">
+                  <xsl:text> </xsl:text><span class="tagFull">Full</span>
+                </xsl:when>
+                <xsl:when test="@wait or status = 'Waitlist'">
+                  <xsl:text> </xsl:text><span class="tagWaitlist">Waitlist</span>
+                </xsl:when>
+                <xsl:when test="@new">
+                  <xsl:text> </xsl:text><span class="tagNew">New</span>
+                </xsl:when>
+                <xsl:when test="$lastUpdatedNumeric &gt;= $updateHorizonNumeric">
+                  <xsl:text> </xsl:text><span class="tagNew">Updated</span>
+                </xsl:when>
+              </xsl:choose>
             </td>
           </tr>
+      </xsl:if>
   </xsl:template>
   
   <!--xsl:if test="$byDate = 1"-->
@@ -242,6 +296,10 @@
   </xsl:template>
   
   <xsl:template name="joyst-trip">
+      <xsl:variable name="lastUpdatedNumeric" select="translate(substring(last_updated, 1, 10),'-','')"/>
+      <!-- above line translates date (in standard YYYY-MM-DDTHH:MM:SS... format)
+      to purely numeric YYYYMMDD format, because XSLT allows only numeric comparisons -->
+    <xsl:if test="(status != 'Canceled' and status != 'Cancelled') or $lastUpdatedNumeric &gt;= $cancelHorizonNumeric">
     <div class="trip">
       <a><xsl:attribute name="name">trip<xsl:value-of select="trip_id"/></xsl:attribute></a>
 <!--div class="sponsor"><xsl:value-of select="committee"/></div-->
@@ -287,10 +345,23 @@
         </xsl:call-template>
       </xsl:if>
       
-      <xsl:if test="@new"><xsl:text> </xsl:text><span class="tagNew">New</span></xsl:if>
-      <xsl:if test="@full or status = 'Full'"><xsl:text> </xsl:text><span class="tagFull">Full</span></xsl:if>
-      <xsl:if test="@wait or status = 'Waitlist'"><xsl:text> </xsl:text><span class="tagWaitlist">Waitlist</span></xsl:if>
-      <xsl:if test="@cancel or status = 'Cancelled' or status = 'Canceled'"><xsl:text> </xsl:text><span class="tagCancel">Cancelled</span></xsl:if>
+      <xsl:choose>
+        <xsl:when test="@cancel or status = 'Cancelled' or status = 'Canceled'">
+          <xsl:text> </xsl:text><span class="tagCancel">Cancelled</span>
+        </xsl:when>
+        <xsl:when test="@full or status = 'Full'">
+          <xsl:text> </xsl:text><span class="tagFull">Full</span>
+        </xsl:when>
+        <xsl:when test="@wait or status = 'Waitlist'">
+          <xsl:text> </xsl:text><span class="tagWaitlist">Waitlist</span>
+        </xsl:when>
+        <xsl:when test="@new">
+          <xsl:text> </xsl:text><span class="tagNew">New</span>
+        </xsl:when>
+        <xsl:when test="$lastUpdatedNumeric &gt;= $updateHorizonNumeric">
+          <xsl:text> </xsl:text><span class="tagNew">Updated</span>
+        </xsl:when>
+      </xsl:choose>
       <div class="desc"><xsl:apply-templates select="web_desc"/>
 
         <br />
@@ -312,7 +383,7 @@
           <xsl:if test="$regOverridesCL1"> CL </xsl:if>
           <xsl:if test="$regOverridesL1"> L </xsl:if>
           <xsl:call-template name="joyst-leader">
-            <xsl:with-param name="prefixDelim"/>
+            <xsl:with-param name="isFirst" select="1"/>
             <xsl:with-param name="nodeName">registrar</xsl:with-param>
           </xsl:call-template>
           <xsl:text>. </xsl:text>
@@ -323,7 +394,7 @@
           <xsl:text>L </xsl:text>
           <xsl:if test="not($regOverridesL1)">
             <xsl:call-template name="joyst-leader">
-              <xsl:with-param name="isFirst">1</xsl:with-param>
+              <xsl:with-param name="isFirst" select="1"/>
               <xsl:with-param name="nodeName">leader1</xsl:with-param>
             </xsl:call-template>
           </xsl:if>
@@ -345,7 +416,7 @@
           <xsl:text>CL </xsl:text>
           <xsl:if test="not($regOverridesCL1)">
             <xsl:call-template name="joyst-leader">
-              <xsl:with-param name="isFirst">1</xsl:with-param>
+              <xsl:with-param name="isFirst" select="1"/>
               <xsl:with-param name="nodeName">coleader1</xsl:with-param>
             </xsl:call-template>
           </xsl:if>
@@ -364,11 +435,12 @@
       </div>
       
     </div>
+    </xsl:if>
   </xsl:template>
 
   <xsl:template name="joyst-leader">
-    <xsl:param name="nodeName">leader1</xsl:param>
-    <xsl:param name="isFirst">0</xsl:param>
+    <xsl:param name="nodeName" select="'leader1'"/>
+    <xsl:param name="isFirst" select="0"/>
     
     <xsl:if test="normalize-space(*[name()=$nodeName])">
       <xsl:if test="not($isFirst)">, </xsl:if>
