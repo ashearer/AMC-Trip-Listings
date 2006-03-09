@@ -4,7 +4,7 @@ require_once('_private/timer.inc.php');
 
 class IOException extends Exception {}
 
-function formatListings($groupID, $xslPath) {
+function formatListings($groupID, $xslPath, $xslParams = null) {
     // retrieves and formats AMC listings corresponding to the given groupID
     // using an XSL template
     
@@ -12,7 +12,7 @@ function formatListings($groupID, $xslPath) {
     timeMilestone('Retrieved raw XML listings from main site');
     $xsl = new XSLTProcessor();
     $xsl->importStyleSheet(DOMDocument::load($xslPath));
-    if (isset($_SERVER['SERVER_NAME'])) {
+    if ($xslParams === null && isset($_SERVER['SERVER_NAME'])) {
         // we don't set listingsURL if we're running from cmd line/cron
         $listingsURL = 'http://'.$_SERVER['SERVER_NAME']
             .($_SERVER['SERVER_PORT'] != 80 ? ':'.$_SERVER['SERVER_PORT'] : '')
@@ -20,6 +20,10 @@ function formatListings($groupID, $xslPath) {
         $xsl->setParameter('', 'listingsURL', $listingsURL);
         $xsl->setParameter('', 'rssURL', $listingsURL . '&output=rss');
         $xsl->setParameter('', 'icsURL', $listingsURL . '&output=ics');
+    }
+    else foreach ($xslParams as $key => $value) {
+        //echo "set param $key to $value; ";
+        $xsl->setParameter('', $key, $value);
     }
     $xsl->setParameter('', 'groupTitle', $groupData['title']);
     $xsl->setParameter('', 'groupID', $groupID);
