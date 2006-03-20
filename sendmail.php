@@ -16,6 +16,7 @@ if (!empty($_POST['command-send'])) {
     
     require_once('_private/formatListings.inc.php');
     require_once('_private/sendMail.inc.php');
+    require_once('_private/sendDadaMail.inc.php');
         
     $groupID = 'bostonym';
     $xslPath = 'amc-trips-to-html-email.xsl';
@@ -41,7 +42,20 @@ if (!empty($_POST['command-send'])) {
     //$to = 'shearer.andrew@gmail.com';
     //$from = $to = 'andrew@ashearer.com';
     //echo $messageHTML;print_r(array($subject, $from, $replyTo, $to));
-    sendMail($subject, $from, $replyTo, $to, $messageHTML, $messagePlainText);
+    if (isset($_POST['dadaMailPassword'])) {
+        $from = 'amc2006@shearersoftware.com';
+        $replyTo = 'amc2006@shearersoftware.com';
+        $to = '';
+        $dadaMailURL = 'http://amcboston.org/cgi-bin/dada/mail.cgi';
+        $dadaMailList = 'YM';
+        $dadaMailPassword = $_REQUEST['dadaMailPassword'];
+        $isTest = !empty($_REQUEST['isTest']);
+        echo sendDadaMail($subject, $from, $replyTo, $dadaMailURL, $dadaMailList,
+            $dadaMailPassword, $messageHTML, $messagePlainText, $isTest);
+    }
+    elseif (strlen($to)) {
+        sendMail($subject, $from, $replyTo, $to, $messageHTML, $messagePlainText);
+    }
     
     ?>
     
@@ -60,6 +74,8 @@ else {
     
     <form action="sendmail.php" method="post">
       Override list, send to email address: <input type="text" size="30" value="" id="email" name="email" /><br />
+      Dada Mail Password: <input type="password" name="dadaMailPassword" size="10" /><br />
+      <input type="checkbox" name="isTest" value="1" checked /><label>Dada Mail Test</label>
       <input type="submit" value="Send Mail" name="command-send" />
     </form>
     
