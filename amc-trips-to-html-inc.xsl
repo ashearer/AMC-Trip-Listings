@@ -45,85 +45,6 @@
   </xsl:variable>
   <xsl:variable name="cancelHorizonNumeric" select="translate(substring($cancelHorizon, 1, 10),'-','')"/>
   
-
-  <xsl:template match="listing">
-
-    <div class="navOnly">
-    <img class="pulloutPhoto" width="240" height="180"
-    src="images/trip-list-photo.jpg" alt="Photo from an AMC trip" />
-    <!--ul class="contents">
-      <xsl:for-each select="trips">
-        <li><a href="#{@link}"><xsl:value-of select="@id" /></a></li>
-      </xsl:for-each>
-    </ul-->
-    </div>
-    
-    <h2><a name="how_to"></a>How To Sign Up</h2>
-    <xsl:apply-templates select="webheader" />
-
-    
-    <h2><a name="contents"></a>At a Glance</h2>
-    <table class="contents" border="0" cellpadding="0" cellspacing="0">
-      <xsl:for-each select="trips">
-        <tr class="section">
-          <td colspan="2"><a href="#{@link}"><xsl:value-of select="@id"/><span class="navOnly"> &#8595;</span></a></td>
-        </tr>
-        <xsl:if test="not(trip)">
-          <tr class="emptySection">
-            <td colspan="2">See below for details.</td>
-          </tr>
-        </xsl:if>
-        <xsl:for-each select="trip">
-          <tr>
-            <td class="date"><xsl:value-of select="date"/></td>
-            <td class="title">
-              <a href="#{generate-id()}"><xsl:value-of select="title"/><span class="navOnly"> &#8595;</span></a>
-            
-              <xsl:if test="rating"><xsl:text> </xsl:text><xsl:apply-templates select="rating"/></xsl:if>
-              
-              <xsl:if test="@new"><xsl:text> </xsl:text><span class="tagNew">New</span></xsl:if>
-              <xsl:if test="@full"><xsl:text> </xsl:text><span class="tagFull">Full</span></xsl:if>
-              <xsl:if test="@wait"><xsl:text> </xsl:text><span class="tagWaitlist">Waitlist</span></xsl:if>
-            </td>
-          </tr>
-        </xsl:for-each>
-      </xsl:for-each>
-    </table>
-    
-    <xsl:for-each select="trips">
-    <h2><a name="{@link}"></a><xsl:value-of select="@id"/></h2>
-    <xsl:if test="@link='Hiking'">
-    <xsl:call-template name="hike-rating-key"/>
-    
-    </xsl:if>
-    
-    <xsl:for-each select="trip">
-      <div class="trip">
-        <a name="{generate-id()}"></a>
-        <span class="date"><xsl:value-of select="date"/></span>
-        <xsl:text> </xsl:text>
-        <span class="title"><xsl:value-of select="title"/></span>
-        
-        <xsl:if test="rating">
-          <xsl:text> </xsl:text>
-          <xsl:apply-templates select="rating" />
-        </xsl:if>
-        
-        <xsl:if test="@new"><xsl:text> </xsl:text><span class="tagNew">New</span></xsl:if>
-        <xsl:if test="@full"><xsl:text> </xsl:text><span class="tagFull">Full</span></xsl:if>
-        <xsl:if test="@wait"><xsl:text> </xsl:text><span class="tagWaitlist">Waitlist</span></xsl:if>
-        <div class="desc"><xsl:apply-templates select="desc"/></div>
-      </div>
-    </xsl:for-each>
-    <!--div style="text-align: right"><a href="#top">Top Of Page</a></div-->
-    <xsl:for-each select="p">
-      <xsl:copy>
-      <xsl:apply-templates select="*|@*|text()"/>
-      </xsl:copy>
-    </xsl:for-each>
-    </xsl:for-each>
-  </xsl:template>
-  
   <xsl:template match="a">
     <!-- antispam email obfuscation for mailto: links -->
     <xsl:choose>
@@ -206,7 +127,7 @@
                 <xsl:when test="@full or status = 'Full'">
                   <xsl:text> </xsl:text><span class="tagFull">Full</span>
                 </xsl:when>
-                <xsl:when test="@wait or status = 'Waitlist'">
+                <xsl:when test="@wait or status = 'Waitlist' or status = 'Wait Listed'">
                   <xsl:text> </xsl:text><span class="tagWaitlist">Waitlist</span>
                 </xsl:when>
                 <xsl:when test="@new">
@@ -352,7 +273,7 @@
         <xsl:when test="@full or status = 'Full'">
           <xsl:text> </xsl:text><span class="tagFull">Full</span>
         </xsl:when>
-        <xsl:when test="@wait or status = 'Waitlist'">
+        <xsl:when test="@wait or status = 'Waitlist' or status = 'Wait Listed'">
           <xsl:text> </xsl:text><span class="tagWaitlist">Waitlist</span>
         </xsl:when>
         <xsl:when test="@new">
