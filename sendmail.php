@@ -42,7 +42,7 @@ if (!empty($_POST['command-send'])) {
     //$to = 'shearer.andrew@gmail.com';
     //$from = $to = 'andrew@ashearer.com';
     //echo $messageHTML;print_r(array($subject, $from, $replyTo, $to));
-    if (isset($_POST['dadaMailPassword'])) {
+    if (isset($_POST['dadaMailPassword']) && strlen($_POST['dadaMailPassword'])) {
         $from = 'amc2006@shearersoftware.com';
         $replyTo = 'amc2006@shearersoftware.com';
         $to = '';
@@ -56,6 +56,9 @@ if (!empty($_POST['command-send'])) {
     elseif (strlen($to)) {
         sendMail($subject, $from, $replyTo, $to, $messageHTML, $messagePlainText);
     }
+    else {
+        die('Error: no recipient address or mailing list password specified.');
+    }
     
     ?>
     
@@ -64,13 +67,14 @@ if (!empty($_POST['command-send'])) {
 }
 else {
     ?>
-    <p>This button will send the Boston trip listings to the amc-test mailing list.
-    To subscribe to the list, see the
+    <p>This button will send the Boston trip listings to an email address you
+    provide or to the main Dada Mail mailing list (be careful!).
+    To subscribe to an amc-test list, see the
     <a href="http://lists.ashearer.com/listinfo.cgi/amc-test-ashearer.com">amc-test list page</a>.
     </p>
     
     <p>If you fill in your email address, it will send the listings just to
-    you, instead of the amc-test list.</p>
+    you, instead of the mailing list.</p>
     
     <form action="sendmail.php" method="post">
       Override list, send to email address: <input type="text" size="30" value="" id="email" name="email" /><br />
