@@ -94,27 +94,44 @@ function doFTPUpload($ftp_server, $ftp_user_name, $ftp_user_pass, $content, $des
     ftp_pasv($conn_id, true);
     
     $needUpload = true;
-    $localReferenceFile = tmpfile();    // download a copy of what's already on the server, so we can see if we need to upload a new version
-    if (@ftp_fget($conn_id, $localReferenceFile, $destination_file, FTP_BINARY)) {
+    $remoteTestFile = tmpfile();
+    // Download a copy of what's already on the server, so we can see if it's
+    // different. If the same content is already up there, don't re-upload so
+    // we don't change mod date (useful to keep down RSS bandwidth).
+    if (@ftp_fget($conn_id, $remoteTestFile, $destination_file, FTP_BINARY)) {
         // don't care about errors--if we can't download the existing file, we'll
         // always just upload a new one.
-        rewind($localReferenceFile);
-        $downloadedContent = '';
-        do {
-            // read in the file. this has to be done in multiple blocks; fread
-            // returned a max of 8K at a time in tests
-            $nextBlock = fread($localReferenceFile, strlen($content) + 1 - strlen($downloadedContent));
-            $downloadedContent .= $nextBlock;
-        } while (strlen($nextBlock) && strlen($downloadedContent) <= strlen($content));
-        fclose($localReferenceFile);
-        // only bother reading one more byte than the content we're comparing
-        // against; this is enough to tell whether the lengths are different, and
-        // if not, we can then check whether the content matches. 
-        // (We don't have a simple way of checking the length of the
-        // tempfile without reading it.)
-        if ($downloadedContent == $content) {
-            $needUpload = false;    // content is already up there; don't re-upload so we don't change mod date (useful to keep down RSS load)
-        }
+        rewind($remoteTestFile);
+        $contentPos = 0;
+        $contentLen = strlen($content);
+        while (true) {
+            // Read in the file. This has to be done in multiple blocks; fread
+            // returned a max of 8K at a time in tests. Only bother reading one
+            // more byte than the content we're comparing against; this is
+            // enough to tell whether the lengths are different, and if not, we
+            // can then check whether the content matches. 
+            // (We don't have a simple way of checking the length of the
+            // tempfile that mirrors the remote file without reading it.)
+            $nextBlock = fread($remoteTestFile, $contentLen + 1 - $contentPos);
+            $nextBlockLen = strlen($nextBlock);
+            $remoteLen = $contentPos + $nextBlockLen;
+            if (!$nextBlockLen) {
+                // have already read end of remote data;
+                // the files are the same if the lengths match
+                $needUpload = ($contentLen != $remoteLen);
+                break;
+            }
+            elseif ($remoteLen > $contentLen
+                || substr($content, $contentPos, $nextBlockLen) !== $nextBlock) {
+                // files are different if we've read more remote data than
+                // there is local data, or if this remote block is different
+                // than the corresponding local block
+                $needUpload = true;
+                break;
+            }
+            $contentPos = $remoteLen;
+        };
+        fclose($remoteTestFile);
     }
     //echo "File $destination_file ".($needUpload ? 'DID' : 'DID NOT')." need upload. ";
     
