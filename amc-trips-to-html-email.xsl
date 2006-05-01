@@ -7,8 +7,12 @@
   <xsl:import href="functions/day-abbreviation/date.day-abbreviation.template.xsl"/>
   <xsl:import href="functions/month-abbreviation/date.month-abbreviation.template.xsl"/>
   <xsl:import href="functions/day-in-month/date.day-in-month.template.xsl"/>
+  <xsl:import href="trip-rating.inc.xsl"/>
+  <xsl:import href="amc-trips-to-html-inc.xsl"/>
 
   <xsl:output encoding="UTF-8" indent="yes" method="html"/>
+  
+  <xsl:param name="tripListingsPageLink" select="'http://amcboston.org/youngmembers/trip_list.shtml'"/>
 
   <xsl:template match="/">
     <html lang="en">
@@ -71,56 +75,40 @@ white-space: nowrap; font-size: 11px}
     </body>
     </html>
   </xsl:template>
-  
-  <xsl:template name="trip-row">
-          <tr>
-            <td class="date"><xsl:call-template name="date-range">
-              <xsl:with-param name="start_date"><xsl:value-of select="trip_start_date"/></xsl:with-param>
-              <xsl:with-param name="end_date"><xsl:value-of select="trip_end_date"/></xsl:with-param>
-              </xsl:call-template></td>
-            <td>&#160;</td>
-            <td class="title">
-              <a href="{concat('http://amcboston.org/youngmembers/trip_list.shtml#trip', trip_id)}"><xsl:value-of select="trip_title"/></a>
-            
-              <xsl:if test="rating"><xsl:text> </xsl:text><xsl:apply-templates select="rating"/></xsl:if>
-              
-              <xsl:if test="@new"><xsl:text> </xsl:text><span class="tagNew">New</span></xsl:if>
-              <xsl:if test="@full or status = 'Full'"><xsl:text> </xsl:text><span class="tagFull">Full</span></xsl:if>
-              <xsl:if test="@wait or status = 'Waitlist'"><xsl:text> </xsl:text><span class="tagWaitlist">Waitlist</span></xsl:if>
-              <xsl:if test="@cancel or status = 'Cancelled' or status = 'Canceled'"><xsl:text> </xsl:text><span class="tagCancel">Cancelled</span></xsl:if>
-            </td>
-          </tr>
-  </xsl:template>
-  
+
   <xsl:key name="trips-by-category" match="*" use="activity_category"/>
  
   <xsl:template match="trips">
 <h2>Boston AMC Young Members Trip Listings</h2>
      <!--xsl:copy-of select="mailheader" /-->
-<p>The Boston AMC Young Members group invites outdoor enthusiasts to
-get involved with the AMC.</p>
+<p>This is a summary of upcoming trips with the Boston Appalachian Mountain Club
+Young Members. For full descriptions, including
+registration information, please visit:
+<a href="http://amcboston.org/youngmembers/trip_list.shtml">http://amcboston.org/youngmembers/trip_list.shtml</a>.</p>
 
-<p>Questions? Want to learn how to get involved? Visit the Young Members
+<p>We're now sending out this summary at least bimonthly, as well as updating the
+web site when new trips become available or fill up. (This should smooth out the demand
+for trips, with less of a rush to sign up at
+the beginning of each month, giving you a better chance of getting into a
+trip the rest of the time.) Trips added or changed in the past two weeks are marked <span
+class="tagNew">Updated</span>.</p>
+
+<p>Other questions? Want to learn how to get involved? Visit the Young Members
 web site
 (<a href="http://amcboston.org/youngmembers/">http://amcboston.org/youngmembers/</a>)
 and check out the Frequently Asked Questions page. If
 you still have questions or concerns, please contact the YM Chair at <a
 href="mailto:youngmembers@amcboston.org">youngmembers@amcboston.org</a>.</p>
 
-<p>For full descriptions of the trips listed below, including
-registration information, visit:
-<a href="http://amcboston.org/youngmembers/trip_list.shtml">http://amcboston.org/youngmembers/trip_list.shtml</a>.</p>
-
 <p>The trips listed in this email are subject to change, so for the most
 up-to-date list of activities, please check the listings on the web site.</p>
 
-<p><i>NOTE: To unsubscribe from this email or to change your email
-address, please follow the link at the bottom of this message. To change
-your email address, first unsubscribe using the link at the bottom of
-this message, and then re-subscribe using the link on the YM home page.
-If you experience any problems with the email or web site, please <strong>do not</strong>
-reply to this message. Instead, please contact Andrew at
-<a href="mailto:amc2005@shearersoftware.com">amc2005@shearersoftware.com</a>.
+<p><i>NOTE: To unsubscribe from this email, please follow the link at
+the bottom of this message. To change your email address, first
+unsubscribe using the link at the bottom of this message, and then
+re-subscribe using the link on the YM home page. If you experience any
+problems with this mailing list or the web site, please contact Andrew at <a
+href="mailto:amc2006@shearersoftware.com">amc2006@shearersoftware.com</a>.
 Thanks!</i></p>
 
     <table class="contents" border="0" cellpadding="0" cellspacing="0">
@@ -136,18 +124,25 @@ Thanks!</i></p>
           </tr>
         </xsl:if-->
         <xsl:for-each select="key('trips-by-category', activity_category)">
-          <xsl:call-template name="trip-row"/>
+          <xsl:call-template name="trip-summary-row">
+            <xsl:with-param name="showInternalNav" select="0"/>
+          </xsl:call-template">
         </xsl:for-each>
       </xsl:for-each>
     </table>
 
+    <hr/>
 
-
-    <h3>All Events by Date</h3>
+    
     <table class="contents" border="0" cellpadding="0" cellspacing="0">
+      <tr class="section">
+        <td colspan="3"><h3>All Events by Date</h3></td>
+      </tr>
       <xsl:for-each select="*">
         <xsl:sort select="trip_start_date"/>
-        <xsl:call-template name="trip-row"/>
+        <xsl:call-template name="trip-summary-row">
+          <xsl:with-param name="showInternalNav" select="0"/>
+        </xsl:call-template">
       </xsl:for-each>
     </table>
         <!--xsl:if test="not(trip)">
@@ -157,124 +152,13 @@ Thanks!</i></p>
         </xsl:if-->
     
     <br/>
+        
+    <xsl:call-template name="hike-rating-key"/>
     
-    <div class="ratingKey">
-    
-    <table cellspacing="0" border="0" align="center">
-      <thead>
-      <tr>
-        <th colspan="5">Hiking / Backpacking Rating System</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <th>First: Mileage</th>
-        <th class="gap"></th>
-        <th>Middle: Pace*</th>
-        <th class="gap"></th>
-        <th>Last: Terrain</th>
-      </tr>
-      <tr>
-        <td>AA = 13+ miles<br />A = 9-13 miles<br />B = 5-9 miles<br />C = under 5 miles</td>
-        <td class="gap"></td>
-        <td>1 = very fast 2.5+ mph<br />2 = fast 2-2.5 mph<br />3 = moderate 1.5-2 mph<br />4 = leisurely 1.5 mph</td>
-        <td class="gap"></td>
-        <td>A = very strenuous<br />B = strenuous<br />C = average<br />D = easy</td>
-      </tr>
-      <tr class="footnote">
-        <td colspan="5" align="center">* Pace is the leader's
-        hiking pace on "average" terrain, such as the
-        hilly trails in the Blue Hills.</td>
-      </tr>
-      <tr class="example">
-        <td colspan="5" align="center"><strong>Example:</strong><xsl:text> </xsl:text>
-        <span class="rating" onclick="window.alert('B2C: ' + this.title + '.')"  title="5-9 miles, fast 2-2.5 mph pace, average terrain"><span class="inner">B2C</span></span>
-        means 5-9 miles, fast 2-2.5 mph pace, average terrain.
-        </td>
-      </tr>
-    </tbody></table>
-    </div>
-    
-    <p><a href="http://amcboston.org/youngmembers/trip_list.shtml">See the web site</a> for full descriptions.</p>
+    <p><strong><a href="http://amcboston.org/youngmembers/trip_list.shtml">See the web site</a></strong> for full descriptions.</p>
     
   </xsl:template>
   
-  <xsl:template name="date-range">
-    <xsl:param name="start_date"/>
-    <xsl:param name="end_date"/>
-    
-    <!-- ISO 8601 date manipulation depends on EXSLT -
-    see http://www.xml.com/pub/a/2005/01/05/tr-xml.html -->
-
-    <xsl:choose>
-      <xsl:when test="function-available('date:day-abbreviation')">
-        <!-- EXSLT implementation -->
-        <!--testttt
-            <xsl:value-of select="trip_start_date"/>
-            <xsl:value-of select="substring($start_date, 1, 10)"/>
-        --><xsl:choose>
-          <xsl:when test="$start_date = $end_date">
-            <xsl:value-of select="date:day-abbreviation(substring($start_date, 1, 10))"/>
-            <xsl:text> </xsl:text>
-            <xsl:value-of select="date:month-abbreviation(substring($start_date, 1, 10))"/>
-            <xsl:text> </xsl:text>
-            <xsl:value-of select="date:day-in-month(substring($start_date, 1, 10))"/>
-          </xsl:when>
-          <xsl:otherwise>
-            <xsl:value-of select="date:day-abbreviation(substring($start_date, 1, 10))"/>–<xsl:value-of
-              select="date:day-abbreviation(substring($end_date, 1, 10))"/>
-            <xsl:text> </xsl:text>
-            <xsl:value-of select="date:month-abbreviation(substring($start_date, 1, 10))"/>
-            <xsl:text> </xsl:text>
-            <xsl:value-of select="date:day-in-month(substring($start_date, 1, 10))"/>–<xsl:if
-              test="date:month-abbreviation(substring($start_date, 1, 10)) != date:month-abbreviation(substring($end_date, 1, 10))">
-              <xsl:value-of select="date:month-abbreviation(substring(substring($end_date, 1, 10), 1, 10))"/>
-              <xsl:text> </xsl:text>
-            </xsl:if>
-            <xsl:value-of select="date:day-in-month(substring($end_date, 1, 10))"/>
-          </xsl:otherwise>
-        </xsl:choose>
-      </xsl:when>
-      <xsl:otherwise>
-        <!-- date EXST functions not available -->
-        <xsl:choose>
-          <xsl:when test="$start_date = $end_date">
-            <xsl:call-template name="date:day-abbreviation">
-              <xsl:with-param name="date-time" select="substring($start_date, 1, 10)"/>
-            </xsl:call-template>
-            <xsl:text> </xsl:text>
-            <xsl:call-template name="date:month-abbreviation">
-              <xsl:with-param name="date-time" select="substring($start_date, 1, 10)"/>
-            </xsl:call-template>
-            <xsl:text> </xsl:text>
-            <xsl:call-template name="date:day-in-month">
-              <xsl:with-param name="date-time" select="substring($start_date, 1, 10)"/>
-            </xsl:call-template>
-          </xsl:when>
-          <xsl:otherwise>
-            <xsl:call-template name="date:day-abbreviation">
-              <xsl:with-param name="date-time" select="substring($start_date, 1, 10)"/>
-            </xsl:call-template>–<xsl:call-template name="date:day-abbreviation">
-              <xsl:with-param name="date-time" select="substring($end_date, 1, 10)"/>
-            </xsl:call-template>
-            <xsl:text> </xsl:text>
-            <xsl:call-template name="date:month-abbreviation">
-              <xsl:with-param name="date-time" select="substring($start_date, 1, 10)"/>
-            </xsl:call-template>
-            <xsl:text> </xsl:text>
-            <xsl:call-template name="date:day-in-month">
-              <xsl:with-param name="date-time" select="substring($start_date, 1, 10)"/>
-            </xsl:call-template><!-- –<xsl:if
-              test="date:month-abbreviation($start_date) != date:month-abbreviation(substring($end_date, 1, 10))">
-              <xsl:value-of select="date:month-abbreviation(substring($end_date, 1, 10))"/> 
-              <xsl:text> </xsl:text>
-            </xsl:if>-->
-            <xsl:value-of select="date:day-in-month(substring($end_date, 1, 10))"/>
-          </xsl:otherwise>
-        </xsl:choose>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
 </xsl:stylesheet>
 
 <!-- 

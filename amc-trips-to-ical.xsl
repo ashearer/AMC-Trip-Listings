@@ -229,7 +229,7 @@
       <xsl:if test="$regOverridesCL1"> CL </xsl:if>
       <xsl:if test="$regOverridesL1"> L </xsl:if>
       <xsl:call-template name="joyst-leader">
-        <xsl:with-param name="prefixDelim"/>
+        <xsl:with-param name="isFirst" select="1"/>
         <xsl:with-param name="nodeName">registrar</xsl:with-param>
       </xsl:call-template>
       <xsl:text>. </xsl:text>
@@ -240,7 +240,7 @@
       <xsl:text>L </xsl:text>
       <xsl:if test="not($regOverridesL1)">
         <xsl:call-template name="joyst-leader">
-          <xsl:with-param name="isFirst">1</xsl:with-param>
+          <xsl:with-param name="isFirst" select="1"/>
           <xsl:with-param name="nodeName">leader1</xsl:with-param>
         </xsl:call-template>
       </xsl:if>
@@ -262,7 +262,7 @@
       <xsl:text>CL </xsl:text>
       <xsl:if test="not($regOverridesCL1)">
         <xsl:call-template name="joyst-leader">
-          <xsl:with-param name="isFirst">1</xsl:with-param>
+          <xsl:with-param name="isFirst" select="1"/>
           <xsl:with-param name="nodeName">coleader1</xsl:with-param>
         </xsl:call-template>
       </xsl:if>
