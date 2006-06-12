@@ -1,10 +1,18 @@
 <?php
-function sendMail($subject, $from, $replyTo, $to, $messageHTML, $messagePlainText) {
+function sendMail($subject, $from, $replyTo, $to, $messageHTML, $messagePlainText, $bcc='') {
     //if (!strlen($message)) $message = '<html><body>'.$message.'</body></html>';
 
     if (!strlen($from)) $from = 'webserver@'.$_SERVER['SERVER_NAME'];
     $headers = "From: ".$from."\r\n"; 
-    //$headers .= "To: ".$to."\r\n"; 
+    if (strlen($to)) {
+        $headers .= "To: ".$to."\r\n";
+    }
+    else {
+        $to = 'Undisclosed-recipients:;';
+    }
+    if (strlen($bcc)) {
+        $headers .= 'Bcc: '.$bcc."\r\n";
+    }
     if (strlen($replyTo)) $headers .= "Reply-To: $replyTo\r\n"; 
     $headers .= "X-Mailer: Hedgehog/PHP\r\n"; 
     

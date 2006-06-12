@@ -16,6 +16,12 @@
   <link rel="stylesheet" href="trip_list.css" type="text/css" />
   <meta http-equiv="content-type" value="text/html;charset=utf-8" />
   <script type="text/javascript" src="trip_list.js"></script>
+  <xsl:if test="normalize-space($rssURL)">
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="{$rssURL}" />
+  </xsl:if>
+  <xsl:if test="normalize-space($icsURL)">
+  <link rel="alternate" type="text/calendar" title="iCalendar" href="{$icsURL}" />
+  </xsl:if>
   <base href="http://amcboston.org/youngmembers/trip_list.shtml" />
 </head>
 <body>

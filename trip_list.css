@@ -39,7 +39,7 @@ h2 {background-color: #369; color: white; padding: 0.2em 0.7em 0.3em 0.7em; marg
 /*.rating .inner {color: #1F3047; border-bottom: 1px dotted gray}*/
 .tagNew, .tagWaitlist, .tagFull, .tagCancel {font-size: 90%; color: white; padding: 0 2px}
 .tagNew {background-color: green}
-.tagWaitlist {background-color: yellow}
+.tagWaitlist {background-color: yellow; color: #555}
 .tagFull, .tagCancel {background-color: red}
 .trip .desc {margin-top: 0.2em}
 .ratingKey tbody td, .ratingKey tbody th {vertical-align: top; text-align: left;

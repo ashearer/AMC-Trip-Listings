@@ -13,7 +13,7 @@
     
   <!-- URL for trip listings page; leave as the empty string to generate
   internal links to the trip anchors -->
-  <xsl:param name="tripListingsPageLink" select="''"></xsl:param>
+  <xsl:param name="listingsURL" select="''"></xsl:param>
   
   <!-- Show "Updated" tag if the trip has been updated with the last n days
   (updateHorizonDays param). Show "Cancel" tag for n days after a trip has
@@ -95,6 +95,7 @@
   <!-- Joy St. trip listing format -->
   
   <xsl:template name="trip-summary-row">
+      <xsl:param name="showInternalNav" select="1"/>
       <xsl:variable name="lastUpdatedNumeric" select="translate(substring(last_updated, 1, 10),'-','')"/>
       <!-- above line translates date (in standard YYYY-MM-DDTHH:MM:SS... format)
       to purely numeric YYYYMMDD format, because XSLT allows only numeric comparisons -->
@@ -116,7 +117,8 @@
                   <xsl:with-param name="rating" select="$rating"/>
                 </xsl:call-template>
               </xsl:variable>
-              <a href="{concat($tripListingsPageLink, '#trip', trip_id)}"><xsl:value-of select="$title"/><span class="navOnly"> &#8595;</span></a>
+              <a href="{concat($listingsURL, '#trip', trip_id)}"><xsl:value-of
+              select="$title"/><xsl:if test="$showInternalNav = 1"><span class="navOnly"> &#8595;</span></xsl:if></a>
               
               
               <xsl:if test="normalize-space($rating)"><xsl:text> </xsl:text><xsl:call-template name="rating"><xsl:with-param name="rating" select="$rating"/></xsl:call-template></xsl:if>
@@ -147,6 +149,7 @@
   <!--/xsl:if-->
   
   <xsl:template match="trips">
+    <xsl:param name="showInternalNav" select="1"/>
     <h2><a name="contents"></a>At a Glance</h2>
     <table class="contents" border="0" cellpadding="0" cellspacing="0">
       <xsl:if test="1 = 1 or $byDate = 1">
@@ -167,7 +170,8 @@
             <td colspan="2">
               <xsl:if test="$byDate != 1">
                 <a href="#{substring(activity_category, 1, 5)}">
-                  <xsl:value-of select="activity_category"/><span class="navOnly"> &#8595;</span>
+                  <xsl:value-of select="activity_category"/><xsl:if
+                  test="$showInternalNav = 1"><span class="navOnly"> &#8595;</span></xsl:if>
                 </a>
               </xsl:if>
               <xsl:if test="$byDate = 1">

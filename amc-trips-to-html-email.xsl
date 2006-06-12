@@ -86,22 +86,18 @@ Young Members. For full descriptions, including
 registration information, please visit:
 <a href="http://amcboston.org/youngmembers/trip_list.shtml">http://amcboston.org/youngmembers/trip_list.shtml</a>.</p>
 
-<p>We're now sending out this summary at least bimonthly, as well as updating the
-web site when new trips become available or fill up. (This should smooth out the demand
-for trips, with less of a rush to sign up at
-the beginning of each month, giving you a better chance of getting into a
-trip the rest of the time.) Trips added or changed in the past two weeks are marked <span
-class="tagNew">Updated</span>.</p>
-
-<p>Other questions? Want to learn how to get involved? Visit the Young Members
+<p>Questions? Want to learn how to get involved? Visit the Young Members
 web site
 (<a href="http://amcboston.org/youngmembers/">http://amcboston.org/youngmembers/</a>)
 and check out the Frequently Asked Questions page. If
 you still have questions or concerns, please contact the YM Chair at <a
 href="mailto:youngmembers@amcboston.org">youngmembers@amcboston.org</a>.</p>
 
-<p>The trips listed in this email are subject to change, so for the most
-up-to-date list of activities, please check the listings on the web site.</p>
+<p>This summary is mailed approximately bimonthly. Trips added or
+changed in the past two weeks are marked <span
+class="tagNew">Updated</span>. The web site is updated whenever new
+trips become available or fill up, so for the most up-to-date list of
+activities, please check the listings on the web site.</p>
 
 <p><i>NOTE: To unsubscribe from this email, please follow the link at
 the bottom of this message. To change your email address, first
@@ -126,7 +122,7 @@ Thanks!</i></p>
         <xsl:for-each select="key('trips-by-category', activity_category)">
           <xsl:call-template name="trip-summary-row">
             <xsl:with-param name="showInternalNav" select="0"/>
-          </xsl:call-template">
+          </xsl:call-template>
         </xsl:for-each>
       </xsl:for-each>
     </table>
@@ -142,7 +138,7 @@ Thanks!</i></p>
         <xsl:sort select="trip_start_date"/>
         <xsl:call-template name="trip-summary-row">
           <xsl:with-param name="showInternalNav" select="0"/>
-        </xsl:call-template">
+        </xsl:call-template>
       </xsl:for-each>
     </table>
         <!--xsl:if test="not(trip)">

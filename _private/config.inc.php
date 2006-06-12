@@ -31,11 +31,17 @@ $kGroupData = array(
     'boston' => array(
         'title' => 'AMC Boston',
         'homePageUrl' => 'http://amcboston.org',
+        'listingsUrl' => 'http://ashearer.com/amc/listings/?c=boston',
+        'rssUrl' => 'http://ashearer.com/amc/listings/?c=boston&output=rss',
+        'icsUrl' => 'http://ashearer.com/amc/listings/?c=boston&output=ics',
         'xmlUrl' => 'http://trips.outdoors.org/index.cfm?method=ch.doxml&searchterms=&searchwhich=AND&whichsearch=byterms&tripchapter=Boston&tripregion=&tripstate=&tripdestination=&tripcommittee=&tripactivity=&tripstartmonth=7&tripstartday=1&tripstartyear=2005&tripstartmonthb=0&tripstartdayb=0&tripstartyearb=2010',
         ),
     'bostonym' => array(
         'title' => 'AMC Boston Young Members',
         'homePageUrl' =>  'http://amcboston.org/youngmembers/',
+        'listingsUrl' => 'http://amcboston.org/youngmembers/trip_list.shtml',
+        'rssUrl' => 'http://amcboston.org/youngmembers/trips.rss',
+        'icsUrl' => 'http://amcboston.org/youngmembers/trips.ics',
         'xmlUrl' => 'http://trips.outdoors.org/index.cfm?method=ch.doxml&searchterms=&searchwhich=AND&whichsearch=byterms&tripchapter=Boston&tripregion=&tripstate=&tripdestination=&tripcommittee=Young%20Members&tripactivity=&tripstartmonth=7&tripstartday=1&tripstartyear=2005&tripstartmonthb=0&tripstartdayb=0&tripstartyearb=2010',
         ),
         /*
@@ -48,16 +54,25 @@ $kGroupData = array(
     'worcester' => array(
         'title' => 'AMC Worcester',
         'homePageUrl' => 'http://amcworcester.org/',
+        'listingsUrl' => 'http://ashearer.com/amc/listings/?c=worcester',
+        'rssUrl' => 'http://ashearer.com/amc/listings/?c=worcester&output=rss',
+        'icsUrl' => 'http://ashearer.com/amc/listings/?c=worcester&output=ics',
         'xmlUrl' => 'http://trips.outdoors.org/index.cfm?method=ch.doxml&searchterms=&searchwhich=AND&whichsearch=byterms&tripchapter=Worcester&tripregion=&tripstate=&tripdestination=&tripcommittee=&tripactivity=&tripstartmonth=7&tripstartday=1&tripstartyear=2005&tripstartmonthb=0&tripstartdayb=0&tripstartyearb=2010',
         ),
     'worcesterym' => array(
         'title' => 'AMC Worcester Young Members',
         'homePageUrl' => 'http://amcworcester.org/ym/',
+        'listingsUrl' => 'http://ashearer.com/amc/listings/?c=worcesterym',
+        'rssUrl' => 'http://ashearer.com/amc/listings/?c=worcesterym&output=rss',
+        'icsUrl' => 'http://ashearer.com/amc/listings/?c=worcesterym&output=ics',
         'xmlUrl' => 'http://trips.outdoors.org/index.cfm?method=ch.doxml&searchterms=&searchwhich=AND&whichsearch=byterms&tripchapter=Worcester&tripregion=&tripstate=&tripdestination=&tripcommittee=Young%20Members&tripactivity=&tripstartmonth=7&tripstartday=1&tripstartyear=2005&tripstartmonthb=0&tripstartdayb=0&tripstartyearb=2010',
         ),
     'narragansett' => array(
         'title' => 'AMC Narragansett',
         'homePageUrl' => 'http://amcnarragansett.org/',
+        'listingsUrl' => 'http://ashearer.com/amc/listings/?c=narragansett',
+        'rssUrl' => 'http://ashearer.com/amc/listings/?c=narragansett&output=rss',
+        'icsUrl' => 'http://ashearer.com/amc/listings/?c=narragansett&output=ics',
         'xmlUrl' => 'http://trips.outdoors.org/index.cfm?method=ch.doxml&searchterms=&searchwhich=AND&whichsearch=byterms&tripchapter=Narragansett&tripregion=&tripstate=&tripdestination=&tripcommittee=&tripactivity=&tripstartmonth=7&tripstartday=1&tripstartyear=2005&tripstartmonthb=0&tripstartdayb=0&tripstartyearb=2010',
         )
 );

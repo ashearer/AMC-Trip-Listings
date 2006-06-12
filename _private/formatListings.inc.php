@@ -1,6 +1,6 @@
 <?php
-require_once('_private/config.inc.php');
-require_once('_private/timer.inc.php');
+require_once('config.inc.php');
+require_once('timer.inc.php');
 
 class IOException extends Exception {}
 
@@ -12,7 +12,7 @@ function formatListings($groupID, $xslPath, $xslParams = null) {
     timeMilestone('Retrieved raw XML listings from main site');
     $xsl = new XSLTProcessor();
     $xsl->importStyleSheet(DOMDocument::load($xslPath));
-    if ($xslParams === null && isset($_SERVER['SERVER_NAME'])) {
+    /*if ($xslParams === null && isset($_SERVER['SERVER_NAME'])) {
         // we don't set listingsURL if we're running from cmd line/cron
         $listingsURL = 'http://'.$_SERVER['SERVER_NAME']
             .($_SERVER['SERVER_PORT'] != 80 ? ':'.$_SERVER['SERVER_PORT'] : '')
@@ -21,13 +21,25 @@ function formatListings($groupID, $xslPath, $xslParams = null) {
         $xsl->setParameter('', 'rssURL', $listingsURL . '&output=rss');
         $xsl->setParameter('', 'icsURL', $listingsURL . '&output=ics');
     }
-    else foreach ($xslParams as $key => $value) {
-        //echo "set param $key to $value; ";
-        $xsl->setParameter('', $key, $value);
+    else*/
+    if ($xslParams) {
+        foreach ($xslParams as $key => $value) {
+            //echo "set param $key to $value; ";
+            $xsl->setParameter('', $key, $value);
+        }
     }
     $xsl->setParameter('', 'groupTitle', $groupData['title']);
     $xsl->setParameter('', 'groupID', $groupID);
     $xsl->setParameter('', 'groupHomePageURL', $groupData['homePageUrl']);
+    if (isset($groupData['listingsUrl'])) {
+        $xsl->setParameter('', 'listingsURL', $groupData['listingsUrl']);
+    }
+    if (isset($groupData['rssUrl'])) {
+        $xsl->setParameter('', 'rssURL', $groupData['rssUrl']);
+    }
+    if (isset($groupData['icsUrl'])) {
+        $xsl->setParameter('', 'icsURL', $groupData['icsUrl']);
+    }
     timeMilestone('Set up XSLT engine');
 
     $xml = new DOMDocument('1.0', 'windows-1252');

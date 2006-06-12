@@ -82,7 +82,12 @@ if (!empty($_POST['command-send'])) {
         //echo 'From: '.$from.', To: '.$to;
         //echo '<br>';
         //echo $messagePlainText;
-        sendMail($subject, $from, $replyTo, $to, $messageHTML, $messagePlainText);
+        $bcc = '';
+        if (!empty($_POST['bcc'])) {
+            $bcc = $to;
+            $to = '';
+        }
+        sendMail($subject, $from, $replyTo, $to, $messageHTML, $messagePlainText, $bcc);
     }
     else {
         die('Error: no recipient address or mailing list password specified.');
@@ -95,8 +100,17 @@ if (!empty($_POST['command-send'])) {
 }
 else {
     ?>
-    <p>This button will send the <?php echo htmlspecialchars($groupData['title']) ?> trip listings to an email address you
-    provide (or to the main Dada Mail mailing list if you're sending to Boston YM).
+    <p>This form will send the <?php echo htmlspecialchars($groupData['title']) ?> trip listings to 
+    <?php if ($groupID == 'bostonym') {
+        ?>
+        the Boston YM Dada Mail mailing list<?php
+    }
+    else {
+        ?>
+        an email address you provide<?
+    }
+    ?>.
+    
     <!--
     To subscribe to an amc-test list, see the
     <a href="http://lists.ashearer.com/listinfo.cgi/amc-test-ashearer.com">amc-test list page</a>. -->
@@ -114,6 +128,9 @@ else {
         </div>
         
       Send to email address: <input type="text" size="30" value="<?php echo htmlspecialchars(isset($_REQUEST['email']) ? $_REQUEST['email'] : '') ?>" id="email" name="email" /><br />
+
+      <input type="checkbox" value="1" id="bcc" name="bcc" checked="checked" /> <label for="bcc">Hide Recipient List (Bcc)</label>
+      <br />
       
       <?php if ($groupID == 'bostonym') {
         ?>

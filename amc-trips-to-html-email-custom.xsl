@@ -10,7 +10,7 @@
   <xsl:import href="trip-rating.inc.xsl"/>
   <xsl:import href="amc-trips-to-html-inc.xsl"/>
 
-  <xsl:output encoding="UTF-8" indent="yes" method="html"/>
+  <xsl:output encoding="ascii" indent="yes" method="html"/>
   
   <xsl:param name="listingsURL" select="''"/>
   <xsl:param name="groupHomePageURL" select="''"/>
@@ -94,16 +94,32 @@ white-space: nowrap; font-size: 11px}
   </xsl:if>
 </i></p>
 
-<div>
+<div><strong>
 <xsl:copy-of select="$mailheader"/>
-</div>
+</strong></div>
 
-    <table class="contents" border="0" cellpadding="0" cellspacing="0">
+    <table class="contents" border="0" cellpadding="0" cellspacing="0" style="font: 12px/16px 'Lucida Grande', Verdana, 'Bitstream Vera Sans', Geneva, Arial, sans-serif">
+      <tr class="section">
+        <td colspan="3"><h3 style="background-color: #369; color: white; padding: 0.2em 0.7em 0.3em 0.7em; margin: 1em 0 0.5em 0;
+    font-size: 140%; border: 1px solid #2E4C7B; border-width: 1px 0">All Events by Date</h3></td>
+      </tr>
+      <xsl:for-each select="*">
+        <xsl:sort select="trip_start_date"/>
+        <xsl:call-template name="trip-summary-row">
+          <xsl:with-param name="showInternalNav" select="0"/>
+        </xsl:call-template>
+      </xsl:for-each>
+    </table>
+
+    <hr/>
+
+    <table class="contents" border="0" cellpadding="0" cellspacing="0" style="font: 12px/16px 'Lucida Grande', Verdana, 'Bitstream Vera Sans', Geneva, Arial, sans-serif">
       <!-- Muenchian method for grouping by activity_category -->
       <xsl:for-each select="*[count(. | key('trips-by-category', activity_category)[1]) = 1]">
         <xsl:sort select="activity_category"/>
         <tr class="section">
-          <td colspan="3"> <br/><h3><a href="http://amcboston.org/youngmembers/trip_list.shtml#{substring(activity_category, 1, 5)}"><xsl:value-of select="activity_category"/></a></h3></td>
+          <td colspan="3"><h3 style="background-color: #369; color: white; margin-top: 1em; padding: 0.2em 0.7em 0.3em 0.7em; margin: 1em 0 0.5em 0;
+    font-size: 140%; border: 1px solid #2E4C7B; border-width: 1px 0"><a href="{$listingsURL}#{substring(activity_category, 1, 5)}"><xsl:value-of select="activity_category"/></a></h3></td>
         </tr>
         <!--xsl:if test="not(*)">
           <tr class="emptySection">
@@ -111,28 +127,13 @@ white-space: nowrap; font-size: 11px}
           </tr>
         </xsl:if-->
         <xsl:for-each select="key('trips-by-category', activity_category)">
-          <xsl:call-template name="trip-summary-row"/>
+          <xsl:call-template name="trip-summary-row">
+            <xsl:with-param name="showInternalNav" select="0"/>
+          </xsl:call-template>
         </xsl:for-each>
       </xsl:for-each>
     </table>
-
-    <hr/>
-
     
-    <table class="contents" border="0" cellpadding="0" cellspacing="0">
-      <tr class="section">
-        <td colspan="3"><h3>All Events by Date</h3></td>
-      </tr>
-      <xsl:for-each select="*">
-        <xsl:sort select="trip_start_date"/>
-        <xsl:call-template name="trip-summary-row"/>
-      </xsl:for-each>
-    </table>
-        <!--xsl:if test="not(trip)">
-          <tr class="emptySection">
-            <td colspan="2">See the <a href="http://amcboston.org/youngmembers/trip_list.shtml">web page</a> for details.</td>
-          </tr>
-        </xsl:if-->
     
     <br/>
         
