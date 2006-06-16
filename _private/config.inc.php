@@ -30,6 +30,7 @@ else {
 $kGroupData = array(
     'boston' => array(
         'title' => 'AMC Boston',
+        'showHikeRatingKey' => 1,
         'homePageUrl' => 'http://amcboston.org',
         'listingsUrl' => 'http://ashearer.com/amc/listings/?c=boston',
         'rssUrl' => 'http://ashearer.com/amc/listings/?c=boston&output=rss',
@@ -38,6 +39,7 @@ $kGroupData = array(
         ),
     'bostonym' => array(
         'title' => 'AMC Boston Young Members',
+        'showHikeRatingKey' => 1,
         'homePageUrl' =>  'http://amcboston.org/youngmembers/',
         'listingsUrl' => 'http://amcboston.org/youngmembers/trip_list.shtml',
         'rssUrl' => 'http://amcboston.org/youngmembers/trips.rss',
@@ -53,6 +55,7 @@ $kGroupData = array(
         */
     'worcester' => array(
         'title' => 'AMC Worcester',
+        'showHikeRatingKey' => 0,
         'homePageUrl' => 'http://amcworcester.org/',
         'listingsUrl' => 'http://ashearer.com/amc/listings/?c=worcester',
         'rssUrl' => 'http://ashearer.com/amc/listings/?c=worcester&output=rss',
@@ -61,6 +64,7 @@ $kGroupData = array(
         ),
     'worcesterym' => array(
         'title' => 'AMC Worcester Young Members',
+        'showHikeRatingKey' => 0,
         'homePageUrl' => 'http://amcworcester.org/ym/',
         'listingsUrl' => 'http://ashearer.com/amc/listings/?c=worcesterym',
         'rssUrl' => 'http://ashearer.com/amc/listings/?c=worcesterym&output=rss',
@@ -69,6 +73,7 @@ $kGroupData = array(
         ),
     'narragansett' => array(
         'title' => 'AMC Narragansett',
+        'showHikeRatingKey' => 1,
         'homePageUrl' => 'http://amcnarragansett.org/',
         'listingsUrl' => 'http://ashearer.com/amc/listings/?c=narragansett',
         'rssUrl' => 'http://ashearer.com/amc/listings/?c=narragansett&output=rss',

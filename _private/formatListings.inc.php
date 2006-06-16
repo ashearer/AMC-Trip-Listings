@@ -28,6 +28,8 @@ function formatListings($groupID, $xslPath, $xslParams = null) {
             $xsl->setParameter('', $key, $value);
         }
     }
+    
+    /* Handle 'differently-spelled' params between $groupData and XSLTs */
     $xsl->setParameter('', 'groupTitle', $groupData['title']);
     $xsl->setParameter('', 'groupID', $groupID);
     $xsl->setParameter('', 'groupHomePageURL', $groupData['homePageUrl']);
@@ -40,6 +42,11 @@ function formatListings($groupID, $xslPath, $xslParams = null) {
     if (isset($groupData['icsUrl'])) {
         $xsl->setParameter('', 'icsURL', $groupData['icsUrl']);
     }
+    /* Handle params spelled the same between $groupData and XSLTs */
+    foreach ($groupData as $key => $value) {
+        $xsl->setParameter('', $key, $value);
+    }
+    
     timeMilestone('Set up XSLT engine');
 
     $xml = new DOMDocument('1.0', 'windows-1252');

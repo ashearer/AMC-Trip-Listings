@@ -15,6 +15,9 @@
   <xsl:param name="listingsURL" select="''"/>
   <xsl:param name="groupHomePageURL" select="''"/>
   <xsl:param name="groupTitle" select="'AMC'"/>
+  <xsl:param name="mailheader" select="''"/>
+  <xsl:param name="mailheaderHTML" select="''"/>
+  <!--xsl:param name="showHikeRatingKey" select="1"/-->
 
   <xsl:template match="/">
     <html lang="en">
@@ -98,6 +101,8 @@ white-space: nowrap; font-size: 11px}
 <xsl:copy-of select="$mailheader"/>
 </strong></div>
 
+<xsl:copy-of select="$mailheaderHTML"/>
+
     <table class="contents" border="0" cellpadding="0" cellspacing="0" style="font: 12px/16px 'Lucida Grande', Verdana, 'Bitstream Vera Sans', Geneva, Arial, sans-serif">
       <tr class="section">
         <td colspan="3"><h3 style="background-color: #369; color: white; padding: 0.2em 0.7em 0.3em 0.7em; margin: 1em 0 0.5em 0;
@@ -136,7 +141,7 @@ white-space: nowrap; font-size: 11px}
     
     
     <br/>
-        
+    
     <xsl:call-template name="hike-rating-key"/>
     
   <xsl:if test="normalize-space($listingsURL)">

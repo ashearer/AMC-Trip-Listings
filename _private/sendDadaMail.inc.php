@@ -1,7 +1,6 @@
 <?php
 function sendDadaMail($subject, $from, $replyTo, $url, $list, $password, $htmlBody, $textBody, $isTest = false) { 
     //$url = 'http://amcboston.org/cgi-bin/dada/mail.cgi';
-    //$postFields = 'f=login&process=true&admin_list=YM&admin_password=********';
     $postFields = 'f=login&process=true&admin_list='.rawurlencode($list)
         .'&admin_password='.rawurlencode($password);
     //echo $postFields;

@@ -24,7 +24,8 @@
   -->
   
   <xsl:param name="updateHorizonDays" select="14"/>
-  <xsl:param name="cancelHorizonDays" select="7"></xsl:param>
+  <xsl:param name="cancelHorizonDays" select="7"/>
+  <xsl:param name="showHikeRatingKey" select="1"/>
   
   <!-- Compute numeric updateHorizon and cancelHorizon in YYYYMMDD format
   based on updateHorizonDays, cancelHorizonDays, and the current date.
@@ -386,50 +387,52 @@
   </xsl:template>
   
   <xsl:template name="hike-rating-key">
-    <div class="ratingKey">
-    
-    <table cellspacing="0" border="0" align="center">
-      <thead>
-      <tr>
-        <th colspan="5">Hiking / Backpacking Rating System</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <th>First: Mileage</th>
-        <th class="gap">&#160;</th>
-        <th>Middle: Pace*</th>
-        <th class="gap">&#160;</th>
-        <th>Last: Terrain</th>
-      </tr>
-      <!--tr>
-        <th>Mileage</th>
-        <th>Pace</th>
-        <th>Terrain</th>
-      </tr-->
-      <tr>
-        <td>AA = 13+ miles<br />A = 9–13 miles<br />B = 5–9 miles<br />C = under 5 miles</td>
-        <td class="gap">&#160;</td>
-        <td>1 = very fast 2.5+ mph<br />2 = fast 2–2.5 mph<br />3 = moderate 1.5–2 mph<br />4 = leisurely 1.5 mph</td>
-        <td class="gap">&#160;</td>
-        <td>A = very strenuous<br />B = strenuous<br />C = average<br />D = easy</td>
-      </tr>
-      <tr class="footnote">
-        <td colspan="5" align="center">* Pace is the leader&#8217;s
-        hiking pace on &#8220;average&#8221; terrain, such as the
-        hilly trails in the Blue Hills.</td>
-      </tr>
-      <tr class="example">
-        <td colspan="5" align="center"><strong>Example:</strong><xsl:text> </xsl:text>
-        <span class="rating" onclick="window.alert('B2C: ' + this.title + '.')"  title="5–9 miles, fast 2–2.5 mph pace, average terrain"><span class="inner">B2C</span></span>
-        means 5–9 miles, fast 2–2.5 mph pace, average terrain.
-        <div class="navOnly">
-        To get an English translation for any blue trip rating, move your
-        mouse over it and either hover there for a second or click.</div>
-        </td>
-      </tr>
-    </tbody></table>
-    </div>
+    <xsl:if test="$showHikeRatingKey > 0">
+      <div class="ratingKey">
+      
+      <table cellspacing="0" border="0" align="center">
+        <thead>
+        <tr>
+          <th colspan="5">Hiking / Backpacking Rating System</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <th>First: Mileage</th>
+          <th class="gap">&#160;</th>
+          <th>Middle: Pace*</th>
+          <th class="gap">&#160;</th>
+          <th>Last: Terrain</th>
+        </tr>
+        <!--tr>
+          <th>Mileage</th>
+          <th>Pace</th>
+          <th>Terrain</th>
+        </tr-->
+        <tr>
+          <td>AA = 13+ miles<br />A = 9–13 miles<br />B = 5–9 miles<br />C = under 5 miles</td>
+          <td class="gap">&#160;</td>
+          <td>1 = very fast 2.5+ mph<br />2 = fast 2–2.5 mph<br />3 = moderate 1.5–2 mph<br />4 = leisurely 1.5 mph</td>
+          <td class="gap">&#160;</td>
+          <td>A = very strenuous<br />B = strenuous<br />C = average<br />D = easy</td>
+        </tr>
+        <tr class="footnote">
+          <td colspan="5" align="center">* Pace is the leader&#8217;s
+          hiking pace on &#8220;average&#8221; terrain, such as the
+          hilly trails in the Blue Hills.</td>
+        </tr>
+        <tr class="example">
+          <td colspan="5" align="center"><strong>Example:</strong><xsl:text> </xsl:text>
+          <span class="rating" onclick="window.alert('B2C: ' + this.title + '.')"  title="5–9 miles, fast 2–2.5 mph pace, average terrain"><span class="inner">B2C</span></span>
+          means 5–9 miles, fast 2–2.5 mph pace, average terrain.
+          <div class="navOnly">
+          To get an English translation for any blue trip rating, move your
+          mouse over it and either hover there for a second or click.</div>
+          </td>
+        </tr>
+      </tbody></table>
+      </div>
+    </xsl:if>
   </xsl:template>
 
   <xsl:template name="date-range">

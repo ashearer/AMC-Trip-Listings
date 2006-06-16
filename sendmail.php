@@ -1,19 +1,8 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<title>AMC Trip Listings Mailer</title>
-	<meta name="generator" content="BBEdit 8.2" />
-	<link rel="stylesheet" type="text/css" href="/style.css" />
-</head>
-<body>
-<h1>AMC Trip Listings Mailer</h1>
 <?php
 ini_set('display_errors', true);
 ini_set('error_reporting', E_ALL);
 require_once('_private/formatListings.inc.php');
-
+$status = '';
 $groupID = '';
 if (isset($_REQUEST['c'])) $groupID = $_REQUEST['c'];
 if (!strlen($groupID)) $groupID = 'bostonym';
@@ -33,10 +22,7 @@ function validateEmail($email) {
     return $email;
 }
 
-if (!empty($_POST['command-send'])) {
-    require_once('_private/sendMail.inc.php');
-    require_once('_private/sendDadaMail.inc.php');
-    
+if (!empty($_POST['command-preview']) || !empty($_POST['command-send'])) {
     if ($groupID == 'bostonym') {
         $xslPath = 'amc-trips-to-html-email.xsl';
     }
@@ -49,8 +35,16 @@ if (!empty($_POST['command-send'])) {
     }
     $messageHTML = formatListings($groupID, $xslPath, $xslParams); //$xsl->transformToXML($xml);
     $messagePlainText = str_replace(array('–', '↓', '\n\n\n'), array('-', '', '\n\n'), strip_tags($messageHTML));
+}
+if (!empty($_POST['command-preview'])) {
+    echo $messageHTML;
+    exit;
+}
+
+if (!empty($_POST['command-send'])) {
+    require_once('_private/sendMail.inc.php');
+    require_once('_private/sendDadaMail.inc.php');
     
-    //include('_private/config.inc.php');
     $subject = $groupData['title'].' Trip Listings';
     $from = ''; //'amc-test@lists.ashearer.com';
     $replyTo = ''; //'andrew@ashearer.com';
@@ -93,6 +87,21 @@ if (!empty($_POST['command-send'])) {
         die('Error: no recipient address or mailing list password specified.');
     }
     
+    $status = 'send-success';
+}
+?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>AMC Trip Listings Mailer</title>
+	<meta name="generator" content="BBEdit 8.2" />
+	<link rel="stylesheet" type="text/css" href="/style.css" />
+</head>
+<body>
+<h1>AMC Trip Listings Mailer</h1>
+<?php
+if ($status == 'send-success') {
     ?>
     
     <p>Mailing complete.</p>
@@ -144,6 +153,7 @@ else {
       <input type="hidden" name="c" value="<?php echo htmlspecialchars($groupID) ?>" />
       <input type="hidden" name="pw" value="<?php echo htmlspecialchars($_REQUEST['pw']) ?>" />
       <input type="hidden" name="from" value="<?php echo htmlspecialchars(isset($_REQUEST['from']) ? $_REQUEST['from'] : '') ?>" />
+      <input type="submit" value="Preview" name="command-preview" />
       <input type="submit" value="Send Mail" name="command-send" />
     </form>
     
