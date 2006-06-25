@@ -12,6 +12,11 @@ Colors:
 #69C Light Blue
 #036 Dark Blue
 #DDD Light Gray
+
+2006-06-25 renaming for iCalendar microformat
+.trip -> .vevent
+.trip .title -> .vevent .summary
+.trip .desc -> .vevent .description
 */
 
 /*@import('ymStyle.css');*/
@@ -31,17 +36,18 @@ h2 {background-color: #369; color: white; padding: 0.2em 0.7em 0.3em 0.7em; marg
 .contents .emptySection td {padding-left: 0.7em; padding-top: 0.3em; font-style: italic}
 
 .rating .inner {/*vertical-align: 2px;*/ color: white; background-color: #369; padding: 0 2px; cursor: pointer}
-.trip {margin-bottom: 0.7em; margin-top: 0.7em; padding-bottom: 0.7em; border-bottom: 0px solid #D4E5F7}
-.trip .date, .contents .date {padding-right: 0.7em; color: #1F3047}
-.trip .date {margin-right: 0.5em; font-weight: bold; border-right: 1px solid #369; }
-.trip .title {font-weight: bold}
+.vevent {margin-bottom: 0.7em; margin-top: 0.7em; padding-bottom: 0.7em; border-bottom: 0px solid #D4E5F7}
+.vevent .date, .contents .date {padding-right: 0.7em; color: #1F3047}
+.vevent .date {margin-right: 0.5em; font-weight: bold; border-right: 1px solid #369; }
+.vevent .summary {font-weight: bold}
 .rating {font-size: 90%; color: white}
 /*.rating .inner {color: #1F3047; border-bottom: 1px dotted gray}*/
 .tagNew, .tagWaitlist, .tagFull, .tagCancel {font-size: 90%; color: white; padding: 0 2px}
 .tagNew {background-color: green}
-.tagWaitlist {background-color: yellow; color: #555}
+/*.tagWaitlist {background-color: yellow; color: #555}*/
+.tagWaitlist {background-color: #999; color: black}
 .tagFull, .tagCancel {background-color: red}
-.trip .desc {margin-top: 0.2em}
+.vevent .description {margin-top: 0.2em} /* old class 'desc' */
 .ratingKey tbody td, .ratingKey tbody th {vertical-align: top; text-align: left;
 border-top: 1px solid gray; border-bottom: none; padding: 0.2em 0.4em 0.2em 0.4em;
 white-space: nowrap; font-size: 11px}

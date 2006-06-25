@@ -223,10 +223,11 @@
   
   <xsl:template name="joyst-trip">
       <xsl:variable name="lastUpdatedNumeric" select="translate(substring(last_updated, 1, 10),'-','')"/>
+      <xsl:variable name="creationDateNumeric" select="translate(substring(creation_date, 1, 10),'-','')"/>
       <!-- above line translates date (in standard YYYY-MM-DDTHH:MM:SS... format)
       to purely numeric YYYYMMDD format, because XSLT allows only numeric comparisons -->
     <xsl:if test="(status != 'Canceled' and status != 'Cancelled') or $lastUpdatedNumeric &gt;= $cancelHorizonNumeric">
-    <div class="trip">
+    <div class="trip vevent">
       <a><xsl:attribute name="name">trip<xsl:value-of select="trip_id"/></xsl:attribute></a>
 <!--div class="sponsor"><xsl:value-of select="committee"/></div-->
       <span class="date">
@@ -262,7 +263,7 @@
           <xsl:value-of select="trip_title"/>
         </xsl:if>
       </xsl:variable>
-      <span class="title"><xsl:value-of select="$title"/></span>
+      <span class="title summary"><xsl:value-of select="$title"/></span>
       
       <xsl:if test="normalize-space($rating)">
         <xsl:text> </xsl:text>
@@ -281,14 +282,14 @@
         <xsl:when test="@wait or status = 'Waitlist' or status = 'Wait Listed'">
           <xsl:text> </xsl:text><span class="tagWaitlist">Waitlist</span>
         </xsl:when>
-        <xsl:when test="@new">
+        <xsl:when test="@new or $creationDateNumeric &gt;= $updateHorizonNumeric">
           <xsl:text> </xsl:text><span class="tagNew">New</span>
         </xsl:when>
         <xsl:when test="$lastUpdatedNumeric &gt;= $updateHorizonNumeric">
           <xsl:text> </xsl:text><span class="tagNew">Updated</span>
         </xsl:when>
       </xsl:choose>
-      <div class="desc"><xsl:apply-templates select="web_desc"/>
+      <div class="desc description"><xsl:apply-templates select="web_desc"/>
 
         <br />
         <xsl:if test="registration_required = 'Yes' and not(normalize-space(registrar)) and not(normalize-space(external_link))">Reg. req&#8217;d. </xsl:if>
@@ -298,7 +299,7 @@
             <xsl:when test="registration_required = 'Yes' and not(normalize-space(registrar))"> Reg. at </xsl:when>
             <xsl:otherwise> See </xsl:otherwise>
           </xsl:choose>
-          <a href="{external_link}"><xsl:value-of select="external_link"/></a>.<xsl:text> </xsl:text>
+          <a class="url" href="{external_link}"><xsl:value-of select="external_link"/></a>.<xsl:text> </xsl:text>
         </xsl:if>
         
         <xsl:variable name="regOverridesCL1" select="normalize-space(registrar) and registrar = coleader1 and (not(normalize-space(coleader1_phone)) or registrar_phone = coleader1_phone) and (not(normalize-space(coleader1_email)) or registrar_email = coleader1_email)"/>
@@ -438,6 +439,8 @@
   <xsl:template name="date-range">
     <xsl:param name="start_date"/>
     <xsl:param name="end_date"/>
+    <xsl:variable name="start_date_w3c" select="substring($start_date, 1, 10)"/>
+    <xsl:variable name="end_date_w3c" select="substring($end_date, 1, 10)"/>
     
     <!-- ISO 8601 date manipulation depends on EXSLT -
     see http://www.xml.com/pub/a/2005/01/05/tr-xml.html -->
@@ -445,31 +448,33 @@
     <xsl:choose>
       <xsl:when test="function-available('date:day-abbreviation')">
         <!-- EXSLT implementation -->
-        <!--testttt
-            <xsl:value-of select="trip_start_date"/>
-            <xsl:value-of select="substring($start_date, 1, 10)"/>
-        --><xsl:choose>
-          <xsl:when test="$start_date = $end_date">
-            <xsl:value-of select="date:day-abbreviation(substring($start_date, 1, 10))"/>
-            <xsl:text> </xsl:text>
-            <xsl:value-of select="date:month-abbreviation(substring($start_date, 1, 10))"/>
-            <xsl:text> </xsl:text>
-            <xsl:value-of select="date:day-in-month(substring($start_date, 1, 10))"/>
-          </xsl:when>
-          <xsl:otherwise>
-            <xsl:value-of select="date:day-abbreviation(substring($start_date, 1, 10))"/>–<xsl:value-of
-              select="date:day-abbreviation(substring($end_date, 1, 10))"/>
-            <xsl:text> </xsl:text>
-            <xsl:value-of select="date:month-abbreviation(substring($start_date, 1, 10))"/>
-            <xsl:text> </xsl:text>
-            <xsl:value-of select="date:day-in-month(substring($start_date, 1, 10))"/>–<xsl:if
-              test="date:month-abbreviation(substring($start_date, 1, 10)) != date:month-abbreviation(substring($end_date, 1, 10))">
-              <xsl:value-of select="date:month-abbreviation(substring(substring($end_date, 1, 10), 1, 10))"/>
+        <!-- output days of week (such as "Mon" or "Fri–Sun") -->
+        <xsl:value-of select="date:day-abbreviation($start_date_w3c)"/>
+        <xsl:if test="$start_date_w3c != $end_date_w3c">
+          <xsl:text>–</xsl:text>
+          <xsl:value-of select="date:day-abbreviation($end_date_w3c)"/>
+        </xsl:if>
+        <xsl:text> </xsl:text>
+        <!-- output start date, such as "Jan 1" -->
+        <!-- use enclosing abbr for hCalendar microformat -->
+        <abbr class="dtstart" title="{$start_date_w3c}">
+          <xsl:value-of select="date:month-abbreviation($start_date_w3c)"/>
+          <xsl:text> </xsl:text>
+          <xsl:value-of select="date:day-in-month($start_date_w3c)"/>
+        </abbr>
+        <!-- output dash, if multi-day -->
+        <xsl:if test="$start_date_w3c != $end_date_w3c">–</xsl:if>
+        <!-- output end date, such as the "Feb 2" in "Jan 30–Feb 2", or the "3" in "Jan 1–3" -->
+        <!-- abbr will display visible content for multi-day events only -->
+        <abbr class="dtend" title="{date:add($end_date_w3c, 'P1D')}">
+          <xsl:if test="$start_date_w3c != $end_date_w3c">
+            <xsl:if test="date:month-abbreviation($start_date_w3c) != date:month-abbreviation($end_date_w3c)">
+              <xsl:value-of select="date:month-abbreviation($end_date_w3c)"/>
               <xsl:text> </xsl:text>
             </xsl:if>
-            <xsl:value-of select="date:day-in-month(substring($end_date, 1, 10))"/>
-          </xsl:otherwise>
-        </xsl:choose>
+            <xsl:value-of select="date:day-in-month($end_date_w3c)"/>
+          </xsl:if>
+        </abbr>
       </xsl:when>
       <xsl:otherwise>
         <!-- date EXST functions not available -->
