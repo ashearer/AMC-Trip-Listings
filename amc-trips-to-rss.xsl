@@ -2,12 +2,19 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
  xmlns:g="http://base.google.com/ns/1.0"
  xmlns:dcterms="http://purl.org/dc/terms/"
- xmlns:dc="http://purl.org/dc/elements/1.1/">
+ xmlns:dc="http://purl.org/dc/elements/1.1/"
+ xmlns:date="http://exslt.org/dates-and-times"
+ extension-element-prefixes="date">
   <xsl:import href="amc-trips-to-html-inc.xsl"/>
+  <xsl:import href="functions/date/date.add.template.xsl"/>
   <xsl:output encoding="UTF-8" indent="yes" method="xml" media-type="application/rss+xml" standalone="yes"/>
   <xsl:param name="groupTitle">AMC</xsl:param>
   <xsl:param name="groupHomePageURL"/>
   <xsl:param name="listingsURL"/>
+  <xsl:param name="timezone" select="'-04:00'"/>
+    <!-- this is a cheat; we should be calculating the timezone offset
+    based on trigger dates, to handle DST correctly. $timezone must be
+    in +00:00 format -->
   <xsl:template match="trips">
 
 <rss version="2.0" xmlns:g="http://base.google.com/ns/1.0"> 
@@ -55,28 +62,34 @@
     
       <g:event_date_range>
         <g:start>
-          <xsl:call-template name="FixW3CDateTime">
+          <xsl:call-template name="FixW3CDateTimeNoTZ">
             <xsl:with-param name="date" select="trip_start_date"/>
           </xsl:call-template>
         </g:start>
         <g:end>
-          <xsl:call-template name="FixW3CDateEndOfDay">
+          <xsl:call-template name="FixW3CDateEndOfDayNoTZ">
             <xsl:with-param name="date" select="trip_end_date"/>
           </xsl:call-template>
         </g:end>
       </g:event_date_range>
       
       <dc:date>
-        <xsl:call-template name="FixW3CDateTime">
-          <xsl:with-param name="date" select="last_updated"/>
+        <xsl:call-template name="FixW3CDateTimeGMT">
+          <xsl:with-param name="date" select="creation_date"/>
         </xsl:call-template>
       </dc:date>
       
       <dcterms:modified>
-        <xsl:call-template name="FixW3CDateTime">
+        <xsl:call-template name="FixW3CDateTimeGMT">
           <xsl:with-param name="date" select="last_updated"/>
         </xsl:call-template>
       </dcterms:modified>
+      
+      <xsl:comment>
+        Creation date <xsl:value-of select="creation_date"/>,
+        updated <xsl:value-of select="last_updated"/>
+        <xsl:text> </xsl:text>
+      </xsl:comment>
       
       <xsl:if test="normalize-space(activity_category)">
         <category><xsl:value-of select="activity_category"/></category>
@@ -92,15 +105,19 @@
       <g:label>AMC</g:label>
       <g:label><xsl:value-of select="$groupTitle"/></g:label>
       
-      <g:location>
-        <xsl:if test="normalize-space(trip_location)">
+      <xsl:if test="normalize-space(trip_location) and normalize-space(trip_state)">
+        <!-- trip_location should contain the city. We don't output
+        the g:location element at all if the city is missing, because just
+        the state apparently doesn't give Google enough to go on; the same
+        search fails in Maps. feedvalidator.org also complains. -->
+        <g:location>
           <xsl:value-of select="trip_location"/><xsl:text>, </xsl:text>
-        </xsl:if>
-        <xsl:if test="normalize-space(trip_state)">
-          <xsl:value-of select="trip_state"/><xsl:text>, </xsl:text> 
-        </xsl:if>
-        <xsl:value-of select="trip_country"/>
-      </g:location>
+          <xsl:if test="normalize-space(trip_state)">
+            <xsl:value-of select="trip_state"/><xsl:text>, </xsl:text> 
+          </xsl:if>
+          <xsl:value-of select="trip_country"/>
+        </g:location>
+      </xsl:if>
     
    <!--title>Google's 2005 Halloween Fright Fest</title>
    <description>Come face to face with your most horrific fears. This year's Halloween fest will be sure to scare your socks off, complete with a real haunted Googleplex, decomposed BBQ roadkill, and vials of beetlejuice.</description>
@@ -132,7 +149,14 @@
 	</xsl:template>
   
   <xsl:template name="RSSHTMLEscape">
-    <!-- double-encoding of HTML in RSS, required by standard (or practice, in the case of title elem) -->
+    <!-- double-encoding of HTML in RSS, required by standard
+    (or practice, in the case of the underspecified title elem) -->
+    <!-- (note that for the title element, feedvalidator.org will throw a
+    warning: http://feedvalidator.org/docs/warning/ContainsHTML.html ,
+    with a different suggestion for how to encode the title element for interop,
+    using a hex entity reference.
+    But since disable-output-escaping doesn't exist in some XSLT processors,
+    we can't implement that here. This method matches common practice. -->
     <xsl:param name="text"/>
     
     <xsl:call-template name="my-replace-string">
@@ -181,8 +205,42 @@
   </xsl:template>
    
   <xsl:template name="FixW3CDateTime">
-    <!-- make a W3C datetime 2001-01-01T13:01:01 out of a string
+    <!-- make a W3C datetime 2001-01-01T13:01:01-05:00 out of a string
     that may be missing the T between the date and the time -->
+    <xsl:param name="date"/>
+ 
+    <xsl:value-of select="substring($date,1,10)"/>
+    <xsl:text>T</xsl:text>
+    <xsl:value-of select="substring($date,12,8)"/>
+    <xsl:value-of select="$timezone"/>
+  </xsl:template>
+   
+  <xsl:template name="FixW3CDateTimeGMT">
+    <!-- make a W3C datetime 2001-01-01T13:01:01Z out of a string
+    that may be missing the T between the date and the time. Adjust time to
+    GMT. -->
+    <xsl:param name="date"/>
+ 
+    <xsl:call-template name="date:add">
+      <xsl:with-param name="date-time">
+        <xsl:value-of select="substring($date,1,10)"/>
+        <xsl:text>T</xsl:text>
+        <xsl:value-of select="substring($date,12,8)"/>
+      </xsl:with-param>
+      <xsl:with-param name="duration" select="concat(
+        translate(substring($timezone, 1, 1), '+', ''),
+        'PT',
+        number(substring($timezone, 2, 2)), 'H',
+        number(substring($timezone, 5, 2)), 'M')"/>
+    </xsl:call-template>
+    <xsl:text>Z</xsl:text>
+  </xsl:template>
+   
+  <xsl:template name="FixW3CDateTimeNoTZ">
+    <!-- make a pseudo-W3C datetime 2001-01-01T13:01:01 out of a string
+    that may be missing the T between the date and the time. W3CDTF requires
+    the timezone, but this function omits it for compatibility with clients
+    including Google Base -->
     <xsl:param name="date"/>
  
     <xsl:value-of select="substring($date,1,10)"/>
@@ -190,7 +248,7 @@
     <xsl:value-of select="substring($date,12,8)"/>
   </xsl:template>
    
-  <xsl:template name="FixW3CDateEndOfDay">
+  <xsl:template name="FixW3CDateEndOfDayNoTZ">
     <!-- make a W3C datetime like 2001-01-01T23:59:59 representing
     the end of a day out of a string representing the date -->
     <xsl:param name="date"/>

@@ -4,7 +4,7 @@
 ini_set('display_errors', true);
 ini_set('error_reporting', E_ALL);
 require_once('_private/timer.inc.php');
-$version = 2.1;   // to make cache unique between versions
+$version = 2.2;   // to make cache unique between versions
 require_once('Cache/Lite.php');
 require_once('_private/formatListings.inc.php');
 $cacheOptions = array(
@@ -30,6 +30,10 @@ elseif ($format == 'email') {
 }
 elseif ($format == 'bostonpage') {
     $xslPath = "amc-trips-to-boston-page.xsl";
+    $contentType = 'text/html;charset=UTF-8';
+}
+elseif ($groupID == 'worcesterym') {
+    $xslPath = "amc-trips-to-worcester-page.xsl";
     $contentType = 'text/html;charset=UTF-8';
 }
 else {

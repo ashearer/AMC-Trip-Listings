@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-  <xsl:param name="groupTitle">AMC</xsl:param>
+  <xsl:param name="groupTitle">AMC Worcester Young Members</xsl:param>
   <xsl:param name="rssURL"/>
   <xsl:param name="icsURL"/>
   <xsl:param name="byDate" select="0"/>
@@ -8,7 +8,7 @@
   <xsl:output encoding="UTF-8" indent="yes" method="html"
     doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN"
     doctype-system="http://www.w3.org/TR/html4/loose.dtd"/>
-    
+  
   <xsl:template match="/">
 <html>
 <head>
@@ -24,7 +24,7 @@
   </xsl:if>
   <script type="text/javascript" src="trip_list.js"></script>
 </head>
-<body>
+<body style="background: #C6DEC6 url('http://amcworcester.org/ym/images/wavu2.gif') no-repeat top;">
 
 <xsl:if test="normalize-space($groupHomePageURL)">
   <div>&#8593; <a href="{$groupHomePageURL}"><xsl:value-of select="$groupTitle"/></a></div>

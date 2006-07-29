@@ -14,7 +14,7 @@
   <meta name="generator" content="Boston AMC XSLT stylesheet by Andrew Shearer" />
   <link rel="stylesheet" href="ymStyle.css" type="text/css" />
   <link rel="stylesheet" href="trip_list.css" type="text/css" />
-  <meta http-equiv="content-type" value="text/html;charset=utf-8" />
+  <!--meta http-equiv="content-type" value="text/html;charset=utf-8"  this is already inserted by XSLT processor -->
   <script type="text/javascript" src="trip_list.js"></script>
   <xsl:if test="normalize-space($rssURL)">
   <link rel="alternate" type="application/rss+xml" title="RSS" href="{$rssURL}" />
