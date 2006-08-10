@@ -31,6 +31,12 @@
 </xsl:if>
 <h1><xsl:value-of select="$groupTitle"/> Trip Listings</h1>
 
+<p>In addition to these listings, the AMC Worcester web site has more
+<a href="http://www.amcworcester.org/activities/biking.htm">cycling
+trips</a> and
+<a href="http://www.amcworcester.org/activities/paddling.htm">paddling trips</a>.
+Happy trails!</p>
+
 <xsl:apply-templates/>
 
 
