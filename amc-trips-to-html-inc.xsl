@@ -559,7 +559,7 @@
     <xsl:param name="title"/>
     <xsl:param name="rating"/>
     
-    <!-- if we retreived a $rating, truncate trip_title correspondingly; store in $title -->
+    <!-- if we retrieved a $rating, truncate trip_title correspondingly; store in $title -->
     <xsl:if test="normalize-space($rating)">
       <xsl:value-of select="substring(trip_title, 0, string-length(trip_title) - string-length(normalize-space($rating)) - 2)"/>
     </xsl:if>
