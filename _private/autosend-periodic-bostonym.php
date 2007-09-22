@@ -8,14 +8,14 @@ require_once('formatListings.inc.php');
 require_once('sendMail.inc.php');
 require_once('sendDadaMail.inc.php');
 
-if (!empty($_SERVER['PHP_SELF'])) {
-    //phpinfo();
+if (!empty($_SERVER['REMOTE_ADDR'])) {
     die('Error: access to this script is denied.');
 }
 $groupID = 'bostonym';
 $groupData = getAMCGroupData($groupID);
-chdir('..');
-$xslPath = 'amc-trips-to-html-email.xsl';
+$xslDir = dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR;
+//chdir('..');
+$xslPath = $xslDir.'amc-trips-to-html-email.xsl';
 $xslParams = array();
 $messageHTML = formatListings($groupID, $xslPath, $xslParams); //$xsl->transformToXML($xml);
 $messagePlainText = str_replace(array('–', '↓', '\n\n\n'), array('-', '', '\n\n'), strip_tags($messageHTML));
