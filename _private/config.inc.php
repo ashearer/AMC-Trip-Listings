@@ -79,7 +79,26 @@ $kGroupData = array(
         'rssUrl' => 'http://ashearer.com/amc/listings/?c=narragansett&output=rss',
         'icsUrl' => 'http://ashearer.com/amc/listings/?c=narragansett&output=ics',
         'xmlUrl' => 'http://trips.outdoors.org/index.cfm?method=ch.doxml&searchterms=&searchwhich=AND&whichsearch=byterms&tripchapter=Narragansett&tripregion=&tripstate=&tripdestination=&tripcommittee=&tripactivity=&tripstartmonth=7&tripstartday=1&tripstartyear=2005&tripstartmonthb=0&tripstartdayb=0&tripstartyearb=2010',
-        )
+        ),
+    'hbboston' => array(
+        'title' => 'AMC Boston H/B',
+        'showHikeRatingKey' => 1,
+        'homePageUrl' => 'http://hbbostonamc.org/',
+        'listingsUrl' => 'http://ashearer.com/amc/listings/?c=hbboston',
+        'rssUrl' => 'http://ashearer.com/amc/listings/?c=hbboston&output=rss',
+        'icsUrl' => 'http://ashearer.com/amc/listings/?c=hbboston&output=ics',
+        'xmlUrl' => 'http://trips.outdoors.org/index.cfm?method=ch.doxml&searchterms=&searchwhich=AND&whichsearch=byterms&tripchapter=Boston&tripregion=&tripstate=&tripdestination=&tripcommittee=Hiking&tripactivity=&tripstartmonth=7&tripstartday=1&tripstartyear=2005&tripstartmonthb=0&tripstartdayb=0&tripstartyearb=2010',
+        ),
+    'bostonintro' => array(
+        'title' => 'AMC Boston Intro',
+        'showHikeRatingKey' => 0,
+        'homePageUrl' => 'http://amcboston.org/intro/',
+        'listingsUrl' => 'http://ashearer.com/amc/listings/?c=bostonintro',
+        'rssUrl' => 'http://ashearer.com/amc/listings/?c=bostonintro&output=rss',
+        'icsUrl' => 'http://ashearer.com/amc/listings/?c=bostonintro&output=ics',
+        'xmlUrl' => 'http://trips.outdoors.org/index.cfm?method=ch.doxml&searchterms=&searchwhich=AND&whichsearch=byterms&tripchapter=Boston&tripregion=&tripstate=&tripdestination=&tripcommittee=Intro&tripactivity=&tripstartmonth=7&tripstartday=1&tripstartyear=2005&tripstartmonthb=0&tripstartdayb=0&tripstartyearb=2010',
+        ),
+
 );
 
 function getAMCGroupData($groupID) {
