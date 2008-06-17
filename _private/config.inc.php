@@ -87,7 +87,7 @@ $kGroupData = array(
         'listingsUrl' => 'http://ashearer.com/amc/listings/?c=hbboston',
         'rssUrl' => 'http://ashearer.com/amc/listings/?c=hbboston&output=rss',
         'icsUrl' => 'http://ashearer.com/amc/listings/?c=hbboston&output=ics',
-        'xmlUrl' => 'http://trips.outdoors.org/index.cfm?method=ch.doxml&searchterms=&searchwhich=AND&whichsearch=byterms&tripchapter=Boston&tripregion=&tripstate=&tripdestination=&tripcommittee=Hiking&tripactivity=&tripstartmonth=7&tripstartday=1&tripstartyear=2005&tripstartmonthb=0&tripstartdayb=0&tripstartyearb=2010',
+        'xmlUrl' => 'http://trips.outdoors.org/index.cfm?method=ch.doxml&searchterms=&searchwhich=AND&whichsearch=byterms&tripchapter=Boston&tripregion=&tripstate=&tripdestination=&tripcommittee=Hiking/Backpacking&tripactivity=&tripstartmonth=7&tripstartday=1&tripstartyear=2005&tripstartmonthb=0&tripstartdayb=0&tripstartyearb=2010',
         ),
     'bostonintro' => array(
         'title' => 'AMC Boston Intro',
