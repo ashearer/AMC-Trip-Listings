@@ -4,7 +4,9 @@ ini_set('error_reporting', E_ALL);
 // to be added to cron, like:
 // 26 * * * * /usr/local/php5/bin/php -q ~/ashearer.com/amc/listings/bostonym-upload.php
 
-require_once('_private/formatListings.inc.php');
+require_once '_private/formatListings.inc.php';
+set_include_path(get_include_path() . PATH_SEPARATOR . dirname(__FILE__) . '/phpseclib0');
+require_once 'Net/SFTP.php';
 
 //$contentType = 'text/html;charset=UTF-8';
 
@@ -28,19 +30,21 @@ $xslParams = array(
 //fclose($local_file);
 
 // AMC Boston site setup
-$server = 'amcboston.org';
-$username = ********;
+$server = '********'; //'amcboston.org';
+$username = ********; //@amcboston.org';
 $userpass = '********';
+$xslDir = dirname(__FILE__).DIRECTORY_SEPARATOR;
+
 // AMC Boston site: HTML trip listings page
-$xslPath = "amc-trips-to-boston-page.xsl";
+/*$xslPath = "amc-trips-to-boston-page.xsl";
 $destination_temp_file = 'trip_list_temp.shtml';
 $destination_file = 'trip_list.shtml';
 makeListingsAndUpload(
     $xslPath, $groupID, $xslParams,
     $server, $username, $userpass,
-    $destination_file, $destination_temp_file);
+    $destination_file, $destination_temp_file);*/
 // More AMC Boston site: RSS newsfeed file
-$xslPath = "amc-trips-to-rss.xsl";
+$xslPath = $xslDir."amc-trips-to-rss.xsl";
 $destination_temp_file = 'trips.temp.rss';
 $destination_file = 'trips.rss';
 makeListingsAndUpload(
@@ -48,21 +52,34 @@ makeListingsAndUpload(
     $server, $username, $userpass,
     $destination_file, $destination_temp_file);
 // More AMC Boston site: ICS (iCalendar) file
-$xslPath = "amc-trips-to-ical.xsl";
+$xslPath = $xslDir."amc-trips-to-ical.xsl";
 $destination_temp_file = 'trips.temp.ics';
 $destination_file = 'trips.ics';
 makeListingsAndUpload(
     $xslPath, $groupID, $xslParams,
     $server, $username, $userpass,
     $destination_file, $destination_temp_file);
+// New layout (2006-09)
+//$xslPath = "amc-trips-to-new-boston-page.xsl";
+//$destination_temp_file = 'new/trip_list_temp.shtml';
+//$destination_file = 'new/trip_list.shtml';
+//var_dump(dirname(__FILE__));
+$xslPath = $xslDir."amc-trips-to-new-boston-page.xsl";
+$destination_temp_file = 'trip_list_temp.shtml';
+$destination_file = 'trip_list.shtml';
+makeListingsAndUpload(
+    $xslPath, $groupID, $xslParams,
+    $server, $username, $userpass,
+    $destination_file, $destination_temp_file);
 
 // Google Base
-$userpass = '***********';
+/*$userpass = '***********';
 //$userpass = 'xx';
 makeListingsAndUpload(
-    'amc-trips-to-rss.xsl', $groupID, $xslParams,
+    $xslDir.'amc-trips-to-rss.xsl', $groupID, $xslParams,
     'uploads.google.com', 'asheareramc', $userpass,
     'amcboston-ym.xml');
+*/
 
 function makeListingsAndUpload($xslPath, $groupID, $xslParams,
     $server, $username, $userpass, $destfile, $desttempfile = null) {
@@ -71,7 +88,7 @@ function makeListingsAndUpload($xslPath, $groupID, $xslParams,
     if (!strlen($result)) {
         die('Error: the XML data could not be formatted for display. Please try again later.');
     }
-    doFTPUpload($server, $username, $userpass, $result, $destfile, $desttempfile);
+    doSFTPUpload($server, $username, $userpass, $result, $destfile, $desttempfile);
 }
 
 /**
@@ -154,4 +171,30 @@ function doFTPUpload($ftp_server, $ftp_user_name, $ftp_user_pass, $content, $des
     }
 }
 
+/**
+ * safe conditional upload of a content string to an SFTP server
+ * Only uploads the file if the content has changed from what's already on the server;
+ * can upload to a temp file first then rename, to avoid having a partial file
+ * available to other users during the upload.
+ */
+function doSFTPUpload($sftp_server, $sftp_user_name, $sftp_user_pass, $content, $destination_file, $destination_temp_file = null) {
+    // set up basic connection
+    $conn = new Net_SFTP($sftp_server);
+
+// login with username and password
+    if (!$conn->login($sftp_user_name, $sftp_user_pass)) {
+        die("SFTP login to $sftp_server has failed");
+    }
+    
+    $needUpload = true;
+    //$remoteTestFile = tmpfile();
+    // Download a copy of what's already on the server, so we can see if it's
+    // different. If the same content is already up there, don't re-upload so
+    // we don't change mod date (useful to keep down RSS bandwidth).
+    $existing_content = $conn->get($destination_file);
+    if ($existing_content != $content) {
+        $conn->put($destination_file, $content);
+        // upload the file
+    }
+}
 ?>
