@@ -35,7 +35,7 @@ $kGroupData = array(
         'listingsUrl' => 'http://ashearer.com/amc/listings/?c=boston',
         'rssUrl' => 'http://ashearer.com/amc/listings/?c=boston&output=rss',
         'icsUrl' => 'http://ashearer.com/amc/listings/?c=boston&output=ics',
-        'xmlUrl' => 'http://trips.outdoors.org/index.cfm?method=ch.doxml&searchterms=&searchwhich=AND&whichsearch=byterms&tripchapter=Boston&tripregion=&tripstate=&tripdestination=&tripcommittee=&tripactivity=&tripstartmonth=7&tripstartday=1&tripstartyear=2010&tripstartmonthb=0&tripstartdayb=0&tripstartyearb=2015',
+        'xmlUrl' => 'http://activities.outdoors.org/xml/index.cfm/chapter/2',
         ),
     'bostonym' => array(
         'title' => 'AMC Boston Young Members',
@@ -44,7 +44,7 @@ $kGroupData = array(
         'listingsUrl' => 'http://amcboston.org/youngmembers/trip_list.shtml',
         'rssUrl' => 'http://amcboston.org/youngmembers/trips.rss',
         'icsUrl' => 'http://amcboston.org/youngmembers/trips.ics',
-        'xmlUrl' => 'http://trips.outdoors.org/index.cfm?method=ch.doxml&searchterms=&searchwhich=AND&whichsearch=byterms&tripchapter=Boston&tripregion=&tripstate=&tripdestination=&tripcommittee=Young%20Members&tripactivity=&tripstartmonth=7&tripstartday=1&tripstartyear=2010&tripstartmonthb=0&tripstartdayb=0&tripstartyearb=2015',
+        'xmlUrl' => 'http://activities.outdoors.org/xml/index.cfm/chapter/2/committee/48',
         ),
         /*
     'bostonymtemp' => array(
@@ -60,7 +60,7 @@ $kGroupData = array(
         'listingsUrl' => 'http://ashearer.com/amc/listings/?c=worcester',
         'rssUrl' => 'http://ashearer.com/amc/listings/?c=worcester&output=rss',
         'icsUrl' => 'http://ashearer.com/amc/listings/?c=worcester&output=ics',
-        'xmlUrl' => 'http://trips.outdoors.org/index.cfm?method=ch.doxml&searchterms=&searchwhich=AND&whichsearch=byterms&tripchapter=Worcester&tripregion=&tripstate=&tripdestination=&tripcommittee=&tripactivity=&tripstartmonth=7&tripstartday=1&tripstartyear=2010&tripstartmonthb=0&tripstartdayb=0&tripstartyearb=2015',
+        'xmlUrl' => 'http://activities.outdoors.org/xml/index.cfm/chapter/12',
         ),
     'worcesterym' => array(
         'title' => 'AMC Worcester Young Members',
@@ -69,7 +69,7 @@ $kGroupData = array(
         'listingsUrl' => 'http://ashearer.com/amc/listings/?c=worcesterym',
         'rssUrl' => 'http://ashearer.com/amc/listings/?c=worcesterym&output=rss',
         'icsUrl' => 'http://ashearer.com/amc/listings/?c=worcesterym&output=ics',
-        'xmlUrl' => 'http://trips.outdoors.org/index.cfm?method=ch.doxml&searchterms=&searchwhich=AND&whichsearch=byterms&tripchapter=Worcester&tripregion=&tripstate=&tripdestination=&tripcommittee=Young%20Members&tripactivity=&tripstartmonth=7&tripstartday=1&tripstartyear=2010&tripstartmonthb=0&tripstartdayb=0&tripstartyearb=2015',
+        'xmlUrl' => 'http://activities.outdoors.org/xml/index.cfm/chapter/12/committee/48',
         ),
     'narragansett' => array(
         'title' => 'AMC Narragansett',
@@ -78,7 +78,7 @@ $kGroupData = array(
         'listingsUrl' => 'http://ashearer.com/amc/listings/?c=narragansett',
         'rssUrl' => 'http://ashearer.com/amc/listings/?c=narragansett&output=rss',
         'icsUrl' => 'http://ashearer.com/amc/listings/?c=narragansett&output=ics',
-        'xmlUrl' => 'http://trips.outdoors.org/index.cfm?method=ch.doxml&searchterms=&searchwhich=AND&whichsearch=byterms&tripchapter=Narragansett&tripregion=&tripstate=&tripdestination=&tripcommittee=&tripactivity=&tripstartmonth=7&tripstartday=1&tripstartyear=2010&tripstartmonthb=0&tripstartdayb=0&tripstartyearb=2015',
+        'xmlUrl' => 'http://activities.outdoors.org/xml/index.cfm/chapter/7',
         ),
     'hbboston' => array(
         'title' => 'AMC Boston H/B',
@@ -87,8 +87,9 @@ $kGroupData = array(
         'listingsUrl' => 'http://ashearer.com/amc/listings/?c=hbboston',
         'rssUrl' => 'http://ashearer.com/amc/listings/?c=hbboston&output=rss',
         'icsUrl' => 'http://ashearer.com/amc/listings/?c=hbboston&output=ics',
-        'xmlUrl' => 'http://trips.outdoors.org/index.cfm?method=ch.doxml&searchterms=&searchwhich=AND&whichsearch=byterms&tripchapter=Boston&tripregion=&tripstate=&tripdestination=&tripcommittee=Hiking/Backpacking&tripactivity=&tripstartmonth=7&tripstartday=1&tripstartyear=2010&tripstartmonthb=0&tripstartdayb=0&tripstartyearb=2015',
+        'xmlUrl' => 'http://activities.outdoors.org/xml/index.cfm/chapter/2/committee/20',
         ),
+    // Can't find the comm. code for the next one.
     'bostonintro' => array(
         'title' => 'AMC Boston Intro',
         'showHikeRatingKey' => 0,
@@ -96,7 +97,7 @@ $kGroupData = array(
         'listingsUrl' => 'http://ashearer.com/amc/listings/?c=bostonintro',
         'rssUrl' => 'http://ashearer.com/amc/listings/?c=bostonintro&output=rss',
         'icsUrl' => 'http://ashearer.com/amc/listings/?c=bostonintro&output=ics',
-        'xmlUrl' => 'http://trips.outdoors.org/index.cfm?method=ch.doxml&searchterms=&searchwhich=AND&whichsearch=byterms&tripchapter=Boston&tripregion=&tripstate=&tripdestination=&tripcommittee=Intro&tripactivity=&tripstartmonth=7&tripstartday=1&tripstartyear=2010&tripstartmonthb=0&tripstartdayb=0&tripstartyearb=2015',
+        'xmlUrl' => 'http://activities.outdoors.org/xml/index.cfm/chapter/2/committee/55',
         ),
 
 );
