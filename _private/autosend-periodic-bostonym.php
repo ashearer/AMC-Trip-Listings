@@ -7,7 +7,7 @@ ini_set('error_reporting', E_ALL);
 require_once('formatListings.inc.php');
 require_once('sendMail.inc.php');
 require_once('sendDadaMail.inc.php');
-require_once('../secretConfig.inc.php');
+require_once(dirname(__FILE__).'/../secretConfig.inc.php');
 
 if (!empty($_SERVER['REMOTE_ADDR'])) {
     die('Error: access to this script is denied.');
