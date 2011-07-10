@@ -294,14 +294,14 @@
       <div class="desc description"><xsl:apply-templates select="web_desc"/>
 
         <br />
-        <xsl:if test="registration_required = 'Yes' and not(normalize-space(registrar)) and not(normalize-space(external_link))">Reg. req&#8217;d. </xsl:if>
-        <xsl:if test="normalize-space(external_link)">
+        <xsl:if test="registration_required = 'Yes' and not(normalize-space(registrar)) and not(normalize-space(external_links/link/url))">Reg. req&#8217;d. </xsl:if>
+        <xsl:if test="normalize-space(external_links/link/url)">
         
           <xsl:choose>
             <xsl:when test="registration_required = 'Yes' and not(normalize-space(registrar))"> Reg. at </xsl:when>
             <xsl:otherwise> See </xsl:otherwise>
           </xsl:choose>
-          <a class="url" href="{external_link}"><xsl:value-of select="external_link"/></a>.<xsl:text> </xsl:text>
+          <a class="url" href="{external_links/link/url}"><xsl:value-of select="external_links/link/text"/></a>.<xsl:text> </xsl:text>
         </xsl:if>
         
         <xsl:variable name="regOverridesCL1" select="normalize-space(registrar) and registrar = coleader1 and (not(normalize-space(coleader1_phone)) or registrar_phone = coleader1_phone) and (not(normalize-space(coleader1_email)) or registrar_email = coleader1_email)"/>
