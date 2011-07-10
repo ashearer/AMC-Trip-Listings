@@ -2,13 +2,14 @@
 ini_set('display_errors', true);
 ini_set('error_reporting', E_ALL);
 require_once('_private/formatListings.inc.php');
+require_once('secretConfig.inc.php');
 $status = '';
 $groupID = '';
 if (isset($_REQUEST['c'])) $groupID = $_REQUEST['c'];
 if (!strlen($groupID)) $groupID = 'bostonym';
 $groupData = getAMCGroupData($groupID);
 
-$expectedPassword = md5('********'.$groupID);
+$expectedPassword = md5(SENDMAIL_WEB_PASSWORD_SALT.$groupID);
 if (!isset($_REQUEST['pw']) || $_REQUEST['pw'] != $expectedPassword) {
     die('Error: incorrect password.');
 }

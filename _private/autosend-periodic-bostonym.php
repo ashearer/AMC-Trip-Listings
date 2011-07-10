@@ -7,6 +7,7 @@ ini_set('error_reporting', E_ALL);
 require_once('formatListings.inc.php');
 require_once('sendMail.inc.php');
 require_once('sendDadaMail.inc.php');
+require_once('../secretConfig.inc.php');
 
 if (!empty($_SERVER['REMOTE_ADDR'])) {
     die('Error: access to this script is denied.');
@@ -25,8 +26,8 @@ $from = 'amc2006@shearersoftware.com';
 $replyTo = 'amc2006@shearersoftware.com';
 $to = '';
 $dadaMailURL = 'http://amcboston.org/cgi-bin/dada/mail.cgi';
-$dadaMailList = 'YM';
-$dadaMailPassword = '********';
+$dadaMailList = DADAMAIL_LIST;
+$dadaMailPassword = DADAMAIL_PASSWORD;
 $isTest = false; //true; //!empty($_REQUEST['isTest']);
 echo sendDadaMail($subject, $from, $replyTo, $dadaMailURL, $dadaMailList,
     $dadaMailPassword, $messageHTML, $messagePlainText, $isTest);

@@ -7,6 +7,7 @@ ini_set('error_reporting', E_ALL);
 require_once '_private/formatListings.inc.php';
 set_include_path(get_include_path() . PATH_SEPARATOR . dirname(__FILE__) . '/phpseclib0');
 require_once 'Net/SFTP.php';
+require_once 'secretConfig.inc.php';
 
 //$contentType = 'text/html;charset=UTF-8';
 
@@ -30,9 +31,9 @@ $xslParams = array(
 //fclose($local_file);
 
 // AMC Boston site setup
-$server = '********'; //'amcboston.org';
-$username = ********; //@amcboston.org';
-$userpass = '********';
+$server = AMCBOSTON_UPLOAD_SERVER;
+$username = AMCBOSTON_UPLOAD_USERNAME;
+$userpass = AMCBOSTON_UPLOAD_PASSWORD;
 $xslDir = dirname(__FILE__).DIRECTORY_SEPARATOR;
 
 // AMC Boston site: HTML trip listings page
