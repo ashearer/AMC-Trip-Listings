@@ -301,7 +301,13 @@
             <xsl:when test="registration_required = 'Yes' and not(normalize-space(registrar))"> Reg. at </xsl:when>
             <xsl:otherwise> See </xsl:otherwise>
           </xsl:choose>
-          <a class="url" href="{external_links/link/url}"><xsl:value-of select="external_links/link/text"/></a>.<xsl:text> </xsl:text>
+          <a class="url">
+            <xsl:attribute name="href">
+              <!-- prepend 'http://' to reg. URL if scheme is missing -->
+              <xsl:if test="not(contains(external_links/link/url, '://'))">http://</xsl:if>
+              <xsl:value-of select="external_links/link/url"/>
+            </xsl:attribute>
+            <xsl:value-of select="external_links/link/text"/></a>.<xsl:text> </xsl:text>
         </xsl:if>
         
         <xsl:variable name="regOverridesCL1" select="normalize-space(registrar) and registrar = coleader1 and (not(normalize-space(coleader1_phone)) or registrar_phone = coleader1_phone) and (not(normalize-space(coleader1_email)) or registrar_email = coleader1_email)"/>
