@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-  <xsl:param name="groupTitle">AMC Worcester Young Members</xsl:param>
+  <xsl:param name="groupTitle">AMC Boston INTRO</xsl:param>
   <xsl:param name="rssURL"/>
   <xsl:param name="icsURL"/>
   <xsl:param name="byDate" select="0"/>
@@ -24,40 +24,39 @@
   </xsl:if>
   <script type="text/javascript" src="trip_list.js"></script>
 </head>
-<body style="background: #AAC4F2; color: black; margin-top: 0">
 
-<div id="Layer1" style="Z-INDEX: 1; LEFT: 10px; WIDTH: 490px; POSITION: absolute; TOP: 5px; HEIGHT: 97px">
-    <p style="line-height: 1.1">
-        <img height="36" alt="" src="http://www.amcboston.org/intro/black3.gif" width="38" /><br />
-    <b><font face="Arial, Helvetica, sans-serif"><font color="#FF9900"><font size="3">Appalachian Mountain Club<br />
-    Boston Chapter</font></font></font></b><br />
-    <b><font face="Arial, Helvetica, sans-serif"><font color="#FFFFFF"><font size="6">INTRO Committee</font></font></font></b></p>
+<body style="background: #ccccff; color: black; margin-top: 0">
+
+<div id="e1" style="position:absolute;left:9;top:231;width:579;height:243;">
+    <p class="text"><font face="Arial" color="#000000" size="2"><b><br/>
+      </b></font></p>
 </div>
-<table cellspacing="0" cellpadding="0" width="650" border="0">
-    <tbody>
-        <tr align="left">
-            <td valign="top">
-                <img height="138" alt="" src="http://www.amcboston.org/intro/whitemountains.jpg" width="700" />
-            </td>
-        </tr>
-        <tr>
-            <td width="100%">
-                <div align="right">
-                    <img height="21" src="http://www.amcboston.org/intro/INTROtopmenu.gif" width="499" usemap="#Map" border="0" /> <map name="topmenu" id="topmenu">
-                        <area title="AMC Headquarters" shape="rect" alt="AMC Headquarters" coords="3,3,137,16" href="http://www.outdoors.org/" />
-                        <area shape="rect" coords="138,5,145,6" href="http://www.amcboston.org/intro/index.html#" />
-                        <area title="AMC Headquarters" shape="rect" alt="AMC Headquarters" coords="133,9,142,10" href="http://www.outdoors.org/" />
-                        <area title="AMC Boston" shape="rect" alt="AMC Boston" coords="158,6,286,17" href="http://www.amcboston.org/" />
-                        <area title="INTRO Library" shape="rect" alt="INTRO Library" coords="293,1,404,16" href="http://www.amcboston.org/intro/library.html" />
-                        <area title="Contact Us" shape="rect" alt="Contact Us" coords="409,3,491,16" href="mailto:epmcmanmon@nii.net" />
-                    </map><br />
-                    <hr width="100%" size="2" />
-                </div>
-            </td>
-        </tr>
-    </tbody>
-</table>
+      <div id="e2" style="position:absolute;left:11;top:570;width:412;height:37;"><span class="text"><b><i><font face="Arial" size="2"><span style="font-size:12px;line-height:16px;">Copyright. Appalachian Mountain Club. All rights reserved.<br/>Last updated November 2011.<br/></span></font></i></b></span>      </div>
+      <!--div id="e3" style="position:absolute; left:186px; top:181px; width:250; height:30;">
+        <table border="0" cellspacing="0" cellpadding="0" width="250">
+          <tr>
+            <td nowrap="nowrap" height="30" align="center" valign="middle"><span class="text"><b><font face="Arial" size="4"><span style="font-size:18px;line-height:24px;">INTRO </span></font><font face="Arial"><span style="font-size:18px;line-height:24px;">Trip Listings</span></font></b></span></td>
+          </tr>
+        </table>
+      </div-->
+      <div id="e4" style="position:absolute;left:499;top:174;width:80;height:23;">
+        <table border="0" cellspacing="0" cellpadding="0" width="80">
+          <tr>
+            <td nowrap="nowrap" height="23" align="center" valign="top"><span class="text"><a href="http://amcboston.org/intro/"><b><font face="Arial"><span style="font-size:14px;line-height:19px;">HOME<br/></span></font></b></a></span></td>
+          </tr>
+        </table>
+      </div>
+<!--$begin exclude$-->
+    <span style="position:absolute; width:600px; height:169px; left: 2px; top: 0px;"><img src="http://amcboston.org/intro/images/Banner.jpg" alt="banner" width="672" height="169" border="0" usemap="#Map2Map"/></span>
+    <map name="Map2Map">
+      <area shape="rect" coords="529,137,637,171" href="mailto:info@amcINTRO.org" alt="Contact Us"/>
+      <area shape="rect" coords="389,135,497,165" href="http://amcboston.org/intro/forms.html" target="_self" alt="Forms"/>
+      <area shape="rect" coords="211,134,363,166" href="http://amcboston.org/intro/leaders.html" target="_self" alt="Leader's Page"/>
+      <area shape="rect" coords="8,136,188,175" href="http://www.amcboston.org/" target="_new" alt="AMC Boston Chapter"/>
+    </map>
+<!--$end exclude$-->
 
+<div style="position: absolute; top: 180px; left: 8px">
 <h1><xsl:value-of select="$groupTitle"/> Trip Listings</h1>
 
 
@@ -68,7 +67,7 @@
 </xsl:if>
 
 <p>
-    <i><font face="Arial,Helvetica"><font size="-2">Copyright. Appalachian Mountain Club. 2008. All rights reserved.</font></font></i> <font size="-2"></font>
+    <i><font face="Arial,Helvetica"><font size="-2">Copyright. Appalachian Mountain Club. 2012. All rights reserved.</font></font></i> <font size="-2"></font>
 </p>
 <p>
     <map name="Map" id="Map">
@@ -79,6 +78,7 @@
     </map>
 </p>
 
+</div>
 </body>
 </html>
 
