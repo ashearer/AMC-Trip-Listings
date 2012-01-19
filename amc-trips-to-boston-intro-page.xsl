@@ -23,12 +23,15 @@
   <link rel="alternate" type="text/calendar" title="iCalendar" href="{$icsURL}" />
   </xsl:if>
   <script type="text/javascript" src="trip_list.js"></script>
+  <style type="text/css">
+    h1 {font-size: 18px; line-height: 24px}
+  </style>
 </head>
 
 <body style="background: #ccccff; color: black; margin-top: 0">
 
     <span><img src="http://amcboston.org/intro/images/Banner.jpg" alt="banner" width="672" height="169" border="0" usemap="#Map2Map"/></span>
-    <map name="Map2Map">
+    <map name="Map2Map" id="Map2Map">
       <area shape="rect" coords="529,137,637,171" href="mailto:info@amcINTRO.org" alt="Contact Us"/>
       <area shape="rect" coords="389,135,497,165" href="http://amcboston.org/intro/forms.html" target="_self" alt="Forms"/>
       <area shape="rect" coords="211,134,363,166" href="http://amcboston.org/intro/leaders.html" target="_self" alt="Leader's Page"/>
