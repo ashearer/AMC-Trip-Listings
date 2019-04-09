@@ -87,7 +87,7 @@ $kGroupData = array(
         'listingsUrl' => 'http://ashearer.com/amc/listings/?c=hbboston',
         'rssUrl' => 'http://ashearer.com/amc/listings/?c=hbboston&output=rss',
         'icsUrl' => 'http://ashearer.com/amc/listings/?c=hbboston&output=ics',
-        'xmlUrl' => 'http://activities.outdoors.org/xml/index.cfm/chapter/2/committee/20',
+        'xmlUrl' => 'http://activities.outdoors.org/xml/index.cfm/chapter/2/committee/60',
         ),
     // Can't find the comm. code for the next one.
     'bostonintro' => array(
